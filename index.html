@@ -737,9 +737,14 @@
                         placeholder="Paste your data here..."
                     ></textarea>
                 </div>
-                <button class="btn" onclick="loadData()">
-                    Load Collection
-                </button>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap">
+                    <button class="btn" onclick="loadData()">
+                        Load from Paste
+                    </button>
+                    <button class="btn" onclick="loadFromGitHub()">
+                        🔄 Reload from GitHub
+                    </button>
+                </div>
             </div>
 
             <div class="error" id="error"></div>
@@ -812,12 +817,16 @@
         </div>
 
         <script>
-            // TMDB API Configuration - Get your free key from themoviedb.org
+            // Configuration
             const TMDB_CONFIG = {
                 API_KEY: "db67114849ccd9aeab6073a574092ee0",
                 BASE_URL: "https://api.themoviedb.org/3",
                 IMAGE_BASE_URL: "https://image.tmdb.org/t/p/w500",
             };
+
+            // GitHub CSV file URL - UPDATE THIS WITH YOUR REPO URL
+            const CSV_FILE_URL =
+                "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/movies.csv";
 
             let allData = [];
             let filteredData = [];
@@ -856,6 +865,35 @@
                     .getElementById("inputSection")
                     .classList.toggle("collapsed");
             }
+
+            async function loadFromGitHub() {
+                showLoading(true);
+
+                try {
+                    const response = await fetch(CSV_FILE_URL);
+                    if (!response.ok) {
+                        throw new Error("Failed to load CSV from GitHub");
+                    }
+
+                    const csvText = await response.text();
+                    parseCSV(csvText);
+                    showSuccess(
+                        "✅ Collection loaded from GitHub! Found " +
+                            allData.length +
+                            " titles.",
+                    );
+                } catch (error) {
+                    showError("Error loading from GitHub: " + error.message);
+                    showLoading(false);
+                }
+            }
+
+            // Auto-load on page load if CSV_FILE_URL is configured
+            window.addEventListener("DOMContentLoaded", function () {
+                if (CSV_FILE_URL && !CSV_FILE_URL.includes("YOUR_USERNAME")) {
+                    loadFromGitHub();
+                }
+            });
 
             function showLoading(show) {
                 document
