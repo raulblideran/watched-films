@@ -869,8 +869,13 @@
                     .classList.toggle("visible");
             }
 
-            async function fetchMoviePoster(title, firstWatch, notes) {
-                const cacheKey = `${title}_${notes}`;
+            async function fetchMoviePoster(
+                title,
+                firstWatch,
+                comments,
+                genre,
+            ) {
+                const cacheKey = `${title}_${comments}_${genre}`;
                 if (posterCache[cacheKey]) {
                     return posterCache[cacheKey];
                 }
@@ -895,10 +900,10 @@
                     if (data.results && data.results.length > 0) {
                         let result = data.results[0]; // Default to first result
 
-                        // Try to extract year from Notes column first (e.g., "1978", "(2018)", "year: 1995")
+                        // Try to extract year from Comments column (e.g., "1978", "(2018)", "year: 1995")
                         let searchYear = "";
-                        if (notes) {
-                            const yearMatch = notes.match(
+                        if (comments) {
+                            const yearMatch = comments.match(
                                 /\b(19\d{2}|20\d{2})\b/,
                             ); // Match years 1900-2099
                             if (yearMatch) {
@@ -906,9 +911,9 @@
                             }
                         }
 
-                        // Check for keywords in notes to help with disambiguation
-                        const notesLower = (notes || "").toLowerCase();
-                        const hasAnimeKeyword = notesLower.includes("anime");
+                        // Check if Genre contains "Anime"
+                        const genreLower = (genre || "").toLowerCase();
+                        const isAnime = genreLower.includes("anime");
 
                         // If we have multiple results, try to find the best match
                         if (data.results.length > 1) {
@@ -928,8 +933,8 @@
                                 }
                             }
 
-                            // If "anime" is mentioned in notes, prioritize Japanese productions
-                            if (hasAnimeKeyword && candidates.length > 1) {
+                            // If genre is "Anime", prioritize Japanese productions
+                            if (isAnime && candidates.length > 1) {
                                 const animeMatch = candidates.find((r) => {
                                     const originCountry =
                                         r.origin_country || [];
@@ -1413,11 +1418,12 @@
                     card.insertBefore(posterDiv, card.firstChild);
                     grid.appendChild(card);
 
-                    // Fetch poster - pass Notes column for year extraction
+                    // Fetch poster - pass Comments for year and Genre for anime detection
                     fetchMoviePoster(
                         row["Name"],
                         row["1st Watch"],
                         row["Comments"],
+                        row["Genre"],
                     ).then((posterUrl) => {
                         if (posterUrl) {
                             const img = document.createElement("img");
@@ -1479,11 +1485,12 @@
 
                 modalBody.innerHTML = html;
 
-                // Set poster - pass Comments/Notes for year extraction
+                // Set poster - pass Comments for year and Genre for anime detection
                 fetchMoviePoster(
                     row["Name"],
                     row["1st Watch"],
                     row["Comments"],
+                    row["Genre"],
                 ).then((posterUrl) => {
                     if (posterUrl) {
                         modalPoster.src = posterUrl;
