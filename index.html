@@ -548,8 +548,9 @@
             .modal-poster {
                 width: 350px;
                 min-width: 350px;
-                height: 100%;
-                object-fit: cover;
+                height: auto;
+                min-height: 100%;
+                object-fit: contain;
                 border-radius: 20px 0 0 20px;
                 background: linear-gradient(
                     135deg,
@@ -905,15 +906,45 @@
                             }
                         }
 
-                        // If we have a year AND multiple results, try to find exact year match
-                        if (searchYear && data.results.length > 1) {
-                            const exactMatch = data.results.find((r) => {
-                                const releaseDate =
-                                    r.release_date || r.first_air_date || "";
-                                return releaseDate.startsWith(searchYear);
-                            });
-                            if (exactMatch) {
-                                result = exactMatch;
+                        // Check for keywords in notes to help with disambiguation
+                        const notesLower = (notes || "").toLowerCase();
+                        const hasAnimeKeyword = notesLower.includes("anime");
+
+                        // If we have multiple results, try to find the best match
+                        if (data.results.length > 1) {
+                            let candidates = data.results;
+
+                            // Filter by year if available
+                            if (searchYear) {
+                                const yearMatches = candidates.filter((r) => {
+                                    const releaseDate =
+                                        r.release_date ||
+                                        r.first_air_date ||
+                                        "";
+                                    return releaseDate.startsWith(searchYear);
+                                });
+                                if (yearMatches.length > 0) {
+                                    candidates = yearMatches;
+                                }
+                            }
+
+                            // If "anime" is mentioned in notes, prioritize Japanese productions
+                            if (hasAnimeKeyword && candidates.length > 1) {
+                                const animeMatch = candidates.find((r) => {
+                                    const originCountry =
+                                        r.origin_country || [];
+                                    return (
+                                        originCountry.includes("JP") ||
+                                        r.original_language === "ja"
+                                    );
+                                });
+                                if (animeMatch) {
+                                    result = animeMatch;
+                                } else {
+                                    result = candidates[0];
+                                }
+                            } else {
+                                result = candidates[0];
                             }
                         }
 
