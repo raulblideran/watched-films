@@ -699,7 +699,13 @@
     </div>
 
     <script>
-        const TMDB__KEY = 'db67114849ccd9aeab6073a574092ee0'; // Users can get free key from themoviedb.org
+        // TMDB API Configuration - Get your free key from themoviedb.org
+        const TMDB_CONFIG = {
+            API_KEY: 'db67114849ccd9aeab6073a574092ee0',
+            BASE_URL: 'https://api.themoviedb.org/3',
+            IMAGE_BASE_URL: 'https://image.tmdb.org/t/p/w500'
+        };
+
         let allData = [];
         let filteredData = [];
         let headers = [];
@@ -740,21 +746,22 @@
                 return posterCache[cacheKey];
             }
 
-            // Without  key, return null
-            if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
+            // Without API key, return null
+            if (!TMDB_CONFIG.API_KEY || TMDB_CONFIG.API_KEY === 'YOUR_API_KEY_HERE') {
+                posterCache[cacheKey] = null;
                 return null;
             }
 
             try {
                 const searchQuery = encodeURIComponent(title);
-                const url = `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${searchQuery}`;
+                const url = `${TMDB_CONFIG.BASE_URL}/search/multi?api_key=${TMDB_CONFIG.API_KEY}&query=${searchQuery}`;
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.results && data.results.length > 0) {
                     const posterPath = data.results[0].poster_path;
                     if (posterPath) {
-                        const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
+                        const posterUrl = `${TMDB_CONFIG.IMAGE_BASE_URL}${posterPath}`;
                         posterCache[cacheKey] = posterUrl;
                         return posterUrl;
                     }
