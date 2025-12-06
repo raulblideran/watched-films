@@ -699,7 +699,7 @@
     </div>
 
     <script>
-        const TMDB_API_KEY = 'YOUR_API_KEY_HERE'; // Users can get free key from themoviedb.org
+        const TMDB__KEY = 'db67114849ccd9aeab6073a574092ee0'; // Users can get free key from themoviedb.org
         let allData = [];
         let filteredData = [];
         let headers = [];
@@ -740,7 +740,7 @@
                 return posterCache[cacheKey];
             }
 
-            // Without API key, return null
+            // Without  key, return null
             if (TMDB_API_KEY === 'YOUR_API_KEY_HERE') {
                 return null;
             }
