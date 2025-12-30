@@ -20,9 +20,9 @@
                     sans-serif;
                 background: linear-gradient(
                     135deg,
-                    #1a1a2e 0%,
-                    #16213e 50%,
-                    #0f3460 100%
+                    #0a0a0a 0%,
+                    #1a0000 50%,
+                    #000000 100%
                 );
                 min-height: 100vh;
                 padding: 20px;
@@ -44,21 +44,7 @@
                 font-size: 3.5em;
                 margin-bottom: 10px;
                 text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-                background: linear-gradient(45deg, #e94560, #f39c12, #e94560);
-                background-size: 200% 200%;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: gradientShift 3s ease infinite;
-            }
-
-            @keyframes gradientShift {
-                0%,
-                100% {
-                    background-position: 0% 50%;
-                }
-                50% {
-                    background-position: 100% 50%;
-                }
+                color: #e94560;
             }
 
             .stats {
@@ -138,6 +124,43 @@
                 transform: rotate(180deg);
             }
 
+            #filtersSection {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 2px solid rgba(233, 69, 96, 0.3);
+                transition: all 0.3s ease;
+            }
+
+            #filtersSection .collapse-header {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+            }
+
+            #filtersSection .collapse-header:hover {
+                color: #e94560;
+            }
+
+            #filtersSection.collapsed {
+                padding: 15px 20px;
+            }
+
+            #filtersSection.collapsed .collapse-header {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            #filtersSection.collapsed .filter-grid {
+                display: none;
+            }
+
+            #filtersSection.collapsed .collapse-icon {
+                transform: rotate(180deg);
+            }
+
             .input-group {
                 margin-bottom: 15px;
             }
@@ -168,7 +191,7 @@
             }
 
             .btn {
-                background: linear-gradient(135deg, #e94560 0%, #f39c12 100%);
+                background: linear-gradient(135deg, #e94560 0%, #8b0000 100%);
                 color: white;
                 padding: 12px 32px;
                 border: none;
@@ -199,53 +222,6 @@
 
             .controls.visible {
                 display: block;
-            }
-
-            .settings-btn {
-                background: rgba(255, 255, 255, 0.2);
-                padding: 10px 20px;
-                border: 2px solid rgba(255, 255, 255, 0.3);
-                border-radius: 10px;
-                color: white;
-                cursor: pointer;
-                font-weight: 600;
-                margin-bottom: 20px;
-                transition: all 0.3s;
-            }
-
-            .settings-btn:hover {
-                background: rgba(255, 255, 255, 0.3);
-            }
-
-            .field-toggles {
-                display: none;
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 10px;
-                padding: 20px;
-                background: rgba(0, 0, 0, 0.3);
-                border-radius: 10px;
-                margin-bottom: 20px;
-            }
-
-            .field-toggles.visible {
-                display: grid;
-            }
-
-            .field-toggle {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .field-toggle input[type="checkbox"] {
-                width: 18px;
-                height: 18px;
-                cursor: pointer;
-            }
-
-            .field-toggle label {
-                cursor: pointer;
-                font-size: 0.9em;
             }
 
             .filter-section {
@@ -308,7 +284,7 @@
             }
 
             #genreFilters::-webkit-scrollbar-thumb:hover {
-                background: #f3931a;
+                background: #c41e3a;
             }
 
             .filter-btn {
@@ -377,7 +353,7 @@
                 left: 0;
                 width: 100%;
                 height: 4px;
-                background: linear-gradient(90deg, #e94560 0%, #f39c12 100%);
+                background: linear-gradient(90deg, #e94560 0%, #8b0000 100%);
             }
 
             .card:hover {
@@ -393,7 +369,7 @@
                 background: linear-gradient(
                     135deg,
                     rgba(233, 69, 96, 0.2),
-                    rgba(243, 156, 18, 0.2)
+                    rgba(0, 0, 0, 0.4)
                 );
                 display: flex;
                 align-items: center;
@@ -433,7 +409,7 @@
             }
 
             .rating-badge {
-                background: linear-gradient(135deg, #e94560, #f39c12);
+                background: linear-gradient(135deg, #e94560, #8b0000);
                 color: white;
                 padding: 6px 10px;
                 border-radius: 8px;
@@ -442,6 +418,12 @@
                 min-width: 45px;
                 text-align: center;
                 box-shadow: 0 4px 10px rgba(233, 69, 96, 0.3);
+            }
+
+            .rating-badge.gold {
+                background: linear-gradient(135deg, #ffd700, #ffb700);
+                color: #000;
+                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
             }
 
             .card-badges {
@@ -537,7 +519,7 @@
             }
 
             .modal-content {
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%);
                 border-radius: 20px;
                 max-width: 1100px;
                 width: 100%;
@@ -580,7 +562,7 @@
                 background: linear-gradient(
                     135deg,
                     rgba(233, 69, 96, 0.3),
-                    rgba(243, 156, 18, 0.3)
+                    rgba(0, 0, 0, 0.5)
                 );
             }
 
@@ -595,16 +577,18 @@
             }
 
             .modal-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: start;
                 margin-bottom: 20px;
             }
 
             .modal-header h2 {
                 font-size: 2.5em;
                 color: #fff;
-                flex: 1;
+                margin-bottom: 15px;
+                padding-right: 60px;
+            }
+
+            .modal-rating {
+                display: inline-block;
             }
 
             .close-btn {
@@ -741,20 +725,46 @@
                 }
 
                 .modal-poster {
-                    width: 100%;
-                    min-width: 100%;
-                    max-height: 40vh;
-                    object-fit: cover;
-                    border-radius: 15px 15px 0 0;
+                    width: 120px;
+                    min-width: 120px;
+                    height: auto;
+                    max-height: 180px;
+                    object-fit: contain;
+                    border-radius: 10px;
+                    margin: 15px;
+                    float: left;
+                }
+
+                .modal-poster.hidden {
+                    display: none;
                 }
 
                 .modal-body {
-                    padding: 20px 15px;
+                    padding: 15px;
+                    overflow: auto;
+                }
+
+                .modal-badges {
+                    display: flex;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                    margin-bottom: 10px;
+                    margin-top: 15px;
+                }
+
+                .modal-header {
+                    clear: both;
+                    padding-top: 0;
                 }
 
                 .modal-header h2 {
-                    font-size: 1.5em;
+                    font-size: 1.3em;
                     padding-right: 50px;
+                    margin-bottom: 8px;
+                }
+
+                .modal-rating {
+                    margin-bottom: 10px;
                 }
 
                 .close-btn {
@@ -815,12 +825,6 @@
             </div>
 
             <div class="controls" id="controls">
-                <button class="settings-btn" onclick="toggleSettings()">
-                    ⚙️ Card Settings
-                </button>
-
-                <div class="field-toggles" id="fieldToggles"></div>
-
                 <input
                     type="text"
                     class="search-box"
@@ -829,30 +833,37 @@
                     onkeyup="filterCards()"
                 />
 
-                <div class="filter-grid">
-                    <div class="filter-section">
-                        <h3>📺 Type</h3>
-                        <div class="filter-buttons" id="typeFilters"></div>
+                <div id="filtersSection" class="collapsed">
+                    <div class="collapse-header" onclick="toggleFilters()">
+                        <h3>🔍 Filters</h3>
+                        <span class="collapse-icon">▼</span>
                     </div>
 
-                    <div class="filter-section">
-                        <h3>🎭 Genre</h3>
-                        <div class="filter-buttons" id="genreFilters"></div>
-                    </div>
+                    <div class="filter-grid">
+                        <div class="filter-section">
+                            <h3>📺 Type</h3>
+                            <div class="filter-buttons" id="typeFilters"></div>
+                        </div>
 
-                    <div class="filter-section">
-                        <h3>⭐ Rating</h3>
-                        <div class="filter-buttons" id="ratingFilters"></div>
-                    </div>
+                        <div class="filter-section">
+                            <h3>🎭 Genre</h3>
+                            <div class="filter-buttons" id="genreFilters"></div>
+                        </div>
 
-                    <div class="filter-section">
-                        <h3>💿 Physical Format</h3>
-                        <div class="filter-buttons" id="physicalFormatFilters"></div>
-                    </div>
+                        <div class="filter-section">
+                            <h3>⭐ Rating</h3>
+                            <div class="filter-buttons" id="ratingFilters"></div>
+                        </div>
 
-                    <div class="filter-section">
-                        <h3>🎥 Special</h3>
-                        <div class="filter-buttons" id="specialFilters"></div>
+                        <div class="filter-section">
+                            <h3>💿 Physical Format</h3>
+                            <div class="filter-buttons" id="physicalFormatFilters"></div>
+                        </div>
+
+                        <div class="filter-section">
+                            <h3>🎥 Special</h3>
+                            <div class="filter-buttons" id="specialFilters"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -904,7 +915,6 @@
                 physicalFormat: "all",
                 special: "all",
             };
-            let visibleFields = {};
             let posterCache = {};
 
             function showError(message) {
@@ -930,6 +940,12 @@
             function toggleInputSection() {
                 document
                     .getElementById("inputSection")
+                    .classList.toggle("collapsed");
+            }
+
+            function toggleFilters() {
+                document
+                    .getElementById("filtersSection")
                     .classList.toggle("collapsed");
             }
 
@@ -968,12 +984,6 @@
                 document
                     .getElementById("loading")
                     .classList.toggle("visible", show);
-            }
-
-            function toggleSettings() {
-                document
-                    .getElementById("fieldToggles")
-                    .classList.toggle("visible");
             }
 
             async function fetchMoviePoster(
@@ -1114,17 +1124,6 @@
 
                 headers = parseCSVLine(lines[0], delimiter);
 
-                // Initialize visible fields
-                headers.forEach((header) => {
-                    if (
-                        header !== "Name" &&
-                        header !== "Type" &&
-                        header !== "Rating ?/10"
-                    ) {
-                        visibleFields[header] = true;
-                    }
-                });
-
                 allData = [];
                 for (let i = 1; i < lines.length; i++) {
                     const values = parseCSVLine(lines[i], delimiter);
@@ -1147,7 +1146,6 @@
 
                 filteredData = [...allData];
                 displayStats();
-                createFieldToggles();
                 createFilters();
                 displayCards(filteredData);
                 document.getElementById("controls").classList.add("visible");
@@ -1182,39 +1180,6 @@
                 return values;
             }
 
-            function createFieldToggles() {
-                const container = document.getElementById("fieldToggles");
-                container.innerHTML =
-                    '<h3 style="grid-column: 1/-1; margin-bottom: 10px;">Show/Hide Card Fields:</h3>';
-
-                headers.forEach((header) => {
-                    if (
-                        header !== "Name" &&
-                        header !== "Type" &&
-                        header !== "Rating ?/10"
-                    ) {
-                        const toggle = document.createElement("div");
-                        toggle.className = "field-toggle";
-
-                        const checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.id = `toggle_${header}`;
-                        checkbox.checked = visibleFields[header];
-                        checkbox.onchange = () => {
-                            visibleFields[header] = checkbox.checked;
-                            displayCards(filteredData);
-                        };
-
-                        const label = document.createElement("label");
-                        label.htmlFor = `toggle_${header}`;
-                        label.textContent = header;
-
-                        toggle.appendChild(checkbox);
-                        toggle.appendChild(label);
-                        container.appendChild(toggle);
-                    }
-                });
-            }
 
             function displayStats() {
                 const statsEl = document.getElementById("stats");
@@ -1542,11 +1507,14 @@
                     const rewatchPotential =
                         parseFloat(row["Rewatch potential"]) || 0;
 
+                    const ratingValue = parseFloat(rating);
+                    const isGoldRating = ratingValue === 11;
+
                     let html = `
                     <div class="card-content">
                         <div class="card-header">
                             <h3>${row["Name"]}</h3>
-                            ${rating && rating !== "?" ? `<div class="rating-badge">${rating}/10</div>` : ""}
+                            ${rating && rating !== "?" ? `<div class="rating-badge ${isGoldRating ? 'gold' : ''}">${rating}/10</div>` : ""}
                         </div>
                         <div class="card-badges">
                             <span class="badge ${row["Type"].toLowerCase()}">${row["Type"]}</span>
@@ -1558,7 +1526,6 @@
 
                     headers.forEach((header) => {
                         if (
-                            visibleFields[header] &&
                             row[header] &&
                             row[header].trim() &&
                             header !== "Name" &&
@@ -1610,16 +1577,19 @@
                 const rewatchPotential =
                     parseFloat(row["Rewatch potential"]) || 0;
 
+                const ratingValue = parseFloat(rating);
+                const isGoldRating = ratingValue === 11;
+
                 let html = `
-                <div class="modal-header">
-                    <h2>${row["Name"]}</h2>
-                    ${rating && rating !== "?" ? `<div class="rating-badge" style="font-size: 1.5em; padding: 12px 20px;">${rating}/10</div>` : ""}
-                </div>
                 <div class="modal-badges">
                     <span class="badge ${row["Type"].toLowerCase()}" style="font-size: 1em; padding: 8px 16px;">${row["Type"]}</span>
                     ${withBogdan ? '<span class="badge bogdan" style="font-size: 1em; padding: 8px 16px;">👥 Bogdan</span>' : ""}
                     ${hasPhysical ? '<span class="badge physical" style="font-size: 1em; padding: 8px 16px;">💿 Physical</span>' : ""}
                     ${rewatchPotential >= 9 ? '<span class="badge rewatch" style="font-size: 1em; padding: 8px 16px;">♻️ High Rewatch</span>' : ""}
+                </div>
+                <div class="modal-header">
+                    <h2>${row["Name"]}</h2>
+                    ${rating && rating !== "?" ? `<div class="modal-rating"><div class="rating-badge ${isGoldRating ? 'gold' : ''}" style="font-size: 1.5em; padding: 12px 20px;">${rating}/10</div></div>` : ""}
                 </div>
             `;
 
