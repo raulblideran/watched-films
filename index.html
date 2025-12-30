@@ -287,6 +287,30 @@
                 flex-wrap: wrap;
             }
 
+            #genreFilters {
+                max-height: 200px;
+                overflow-y: auto;
+                padding-right: 5px;
+            }
+
+            #genreFilters::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            #genreFilters::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+
+            #genreFilters::-webkit-scrollbar-thumb {
+                background: #e94560;
+                border-radius: 10px;
+            }
+
+            #genreFilters::-webkit-scrollbar-thumb:hover {
+                background: #f3931a;
+            }
+
             .filter-btn {
                 padding: 8px 16px;
                 border: 2px solid #e94560;
@@ -443,9 +467,9 @@
             }
 
             .badge.series {
-                background: rgba(155, 89, 182, 0.3);
-                border: 1px solid #9b59b6;
-                color: #9b59b6;
+                background: rgba(52, 231, 228, 0.3);
+                border: 1px solid #34e7e4;
+                color: #34e7e4;
             }
 
             .badge.rewatch {
@@ -455,9 +479,10 @@
             }
 
             .badge.bogdan {
-                background: rgba(241, 196, 15, 0.3);
-                border: 1px solid #f1c40f;
-                color: #f1c40f;
+                background: rgba(191, 64, 255, 0.3);
+                border: 2px solid #bf40ff;
+                color: #bf40ff;
+                font-weight: 700;
             }
 
             .badge.physical {
@@ -705,12 +730,48 @@
                     grid-template-columns: 1fr;
                 }
 
+                .modal.visible {
+                    padding: 10px;
+                }
+
                 .modal-content {
                     max-height: 95vh;
+                    flex-direction: column;
+                    border-radius: 15px;
+                }
+
+                .modal-poster {
+                    width: 100%;
+                    min-width: 100%;
+                    max-height: 40vh;
+                    object-fit: cover;
+                    border-radius: 15px 15px 0 0;
+                }
+
+                .modal-body {
+                    padding: 20px 15px;
                 }
 
                 .modal-header h2 {
-                    font-size: 1.8em;
+                    font-size: 1.5em;
+                    padding-right: 50px;
+                }
+
+                .close-btn {
+                    top: 15px;
+                    right: 15px;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 1.5em;
+                }
+
+                .modal-field {
+                    margin: 10px 0;
+                    padding: 12px;
+                }
+
+                .modal-field-value {
+                    font-size: 1em;
                 }
             }
         </style>
@@ -785,6 +846,11 @@
                     </div>
 
                     <div class="filter-section">
+                        <h3>💿 Physical Format</h3>
+                        <div class="filter-buttons" id="physicalFormatFilters"></div>
+                    </div>
+
+                    <div class="filter-section">
                         <h3>🎥 Special</h3>
                         <div class="filter-buttons" id="specialFilters"></div>
                     </div>
@@ -835,6 +901,7 @@
                 type: "all",
                 genre: "all",
                 rating: "all",
+                physicalFormat: "all",
                 special: "all",
             };
             let visibleFields = {};
@@ -870,7 +937,9 @@
                 showLoading(true);
 
                 try {
-                    const response = await fetch(CSV_FILE_URL);
+                    // Add cache-busting parameter to always fetch latest version
+                    const cacheBuster = `?t=${new Date().getTime()}`;
+                    const response = await fetch(CSV_FILE_URL + cacheBuster);
                     if (!response.ok) {
                         throw new Error("Failed to load CSV from GitHub");
                     }
@@ -1206,12 +1275,19 @@
                 // Genre filters
                 const genreContainer = document.getElementById("genreFilters");
                 genreContainer.innerHTML = "";
-                const genres = new Set();
+                const genres = new Map(); // Use Map to track normalized -> display name
                 allData.forEach((row) => {
                     if (row["Genre"]) {
                         row["Genre"]
                             .split("/")
-                            .forEach((g) => genres.add(g.trim()));
+                            .forEach((g) => {
+                                const trimmed = g.trim();
+                                const normalized = trimmed.toLowerCase();
+                                // Keep the first occurrence's capitalization
+                                if (!genres.has(normalized)) {
+                                    genres.set(normalized, trimmed);
+                                }
+                            });
                     }
                 });
                 const allGenreBtn = document.createElement("button");
@@ -1220,14 +1296,13 @@
                 allGenreBtn.onclick = () => setFilter("genre", "all");
                 genreContainer.appendChild(allGenreBtn);
 
-                [...genres]
-                    .sort()
-                    .slice(0, 10)
-                    .forEach((genre) => {
+                [...genres.entries()]
+                    .sort((a, b) => a[1].localeCompare(b[1]))
+                    .forEach(([normalized, displayName]) => {
                         const btn = document.createElement("button");
                         btn.className = "filter-btn";
-                        btn.textContent = genre;
-                        btn.onclick = () => setFilter("genre", genre);
+                        btn.textContent = displayName;
+                        btn.onclick = () => setFilter("genre", normalized);
                         genreContainer.appendChild(btn);
                     });
 
@@ -1244,6 +1319,43 @@
                         setFilter("rating", rating.toLowerCase());
                     ratingContainer.appendChild(btn);
                 });
+
+                // Physical Format filters
+                const formatContainer = document.getElementById("physicalFormatFilters");
+                formatContainer.innerHTML = "";
+                const formats = new Map();
+                allData.forEach((row) => {
+                    if (row["Physical Format"]) {
+                        const formatStr = row["Physical Format"].replace(/^"+|"+$/g, '').trim(); // Remove quotes
+                        if (formatStr && !formatStr.match(/^\d{2}\/\d{4}$/)) { // Skip date entries
+                            // Split by comma like genres are split by slash
+                            formatStr.split(',').forEach((f) => {
+                                const trimmed = f.trim();
+                                if (trimmed) {
+                                    const normalized = trimmed.toLowerCase();
+                                    if (!formats.has(normalized)) {
+                                        formats.set(normalized, trimmed);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+                const allFormatBtn = document.createElement("button");
+                allFormatBtn.className = "filter-btn active";
+                allFormatBtn.textContent = "All";
+                allFormatBtn.onclick = () => setFilter("physicalFormat", "all");
+                formatContainer.appendChild(allFormatBtn);
+
+                [...formats.entries()]
+                    .sort((a, b) => a[1].localeCompare(b[1]))
+                    .forEach(([normalized, displayName]) => {
+                        const btn = document.createElement("button");
+                        btn.className = "filter-btn";
+                        btn.textContent = displayName;
+                        btn.onclick = () => setFilter("physicalFormat", normalized);
+                        formatContainer.appendChild(btn);
+                    });
 
                 // Special filters
                 const specialContainer =
@@ -1287,11 +1399,11 @@
                         return false;
                     }
 
-                    if (
-                        activeFilters.genre !== "all" &&
-                        !row["Genre"].includes(activeFilters.genre)
-                    ) {
-                        return false;
+                    if (activeFilters.genre !== "all") {
+                        const rowGenres = row["Genre"].toLowerCase();
+                        if (!rowGenres.includes(activeFilters.genre)) {
+                            return false;
+                        }
                     }
 
                     if (activeFilters.rating !== "all") {
@@ -1315,6 +1427,16 @@
                             return false;
                         if (activeFilters.rating === "<7" && rating >= 7)
                             return false;
+                    }
+
+                    if (activeFilters.physicalFormat !== "all") {
+                        if (!row["Physical Format"]) {
+                            return false;
+                        }
+                        const rowFormats = row["Physical Format"].replace(/^"+|"+$/g, '').trim().toLowerCase();
+                        if (!rowFormats.includes(activeFilters.physicalFormat)) {
+                            return false;
+                        }
                     }
 
                     if (activeFilters.special !== "all") {
