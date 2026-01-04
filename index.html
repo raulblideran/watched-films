@@ -529,6 +529,16 @@
                 opacity: 0.9;
             }
 
+            .field-value.golden {
+                background: linear-gradient(135deg, #ffd700, #ffb700);
+                color: #000;
+                font-weight: bold;
+                padding: 6px 12px;
+                border-radius: 8px;
+                display: inline-block;
+                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+            }
+
             .modal {
                 display: none;
                 position: fixed;
@@ -673,6 +683,16 @@
                 color: #fff;
                 font-size: 1.1em;
                 line-height: 1.6;
+            }
+
+            .modal-field-value.golden {
+                background: linear-gradient(135deg, #ffd700, #ffb700);
+                color: #000;
+                font-weight: bold;
+                padding: 8px 16px;
+                border-radius: 8px;
+                display: inline-block;
+                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
             }
 
             .loading,
@@ -1565,7 +1585,10 @@
                             header !== "Physical Format" &&
                             header !== "Rewatch potential"
                         ) {
-                            html += `<div class="card-field"><div class="field-label">${header}</div><div class="field-value">${row[header]}</div></div>`;
+                            const isWatchCount = header === "Watch count";
+                            const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
+                            const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
+                            html += `<div class="card-field"><div class="field-label">${header}</div><div class="field-value ${isGoldenWatchCount ? 'golden' : ''}">${row[header]}</div></div>`;
                         }
                     });
 
@@ -1644,10 +1667,13 @@
                         header !== "Physical Format" &&
                         header !== "Rewatch potential"
                     ) {
+                        const isWatchCount = header === "Watch count";
+                        const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
+                        const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
                         html += `
                         <div class="modal-field">
                             <div class="modal-field-label">${header}</div>
-                            <div class="modal-field-value">${row[header]}</div>
+                            <div class="modal-field-value ${isGoldenWatchCount ? 'golden' : ''}">${row[header]}</div>
                         </div>
                     `;
                     }
