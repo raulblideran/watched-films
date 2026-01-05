@@ -4,153 +4,53 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>🎬 Movie & Series Collection</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            'primary': '#e94560',
+                            'primary-dark': '#8b0000',
+                        },
+                        animation: {
+                            'fadeInDown': 'fadeInDown 0.6s ease',
+                            'fadeInUp': 'fadeInUp 0.6s ease',
+                            'fadeIn': 'fadeIn 0.3s ease',
+                            'slideUp': 'slideUp 0.3s ease',
+                            'pulse-slow': 'pulse 1.5s ease-in-out infinite',
+                        },
+                        keyframes: {
+                            fadeInDown: {
+                                '0%': { opacity: '0', transform: 'translateY(-30px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            },
+                            fadeInUp: {
+                                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            },
+                            fadeIn: {
+                                '0%': { opacity: '0' },
+                                '100%': { opacity: '1' },
+                            },
+                            slideUp: {
+                                '0%': { opacity: '0', transform: 'translateY(50px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            },
+                        }
+                    }
+                }
+            }
+        </script>
         <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                font-family:
-                    "Inter",
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    "Segoe UI",
-                    sans-serif;
-                background: linear-gradient(
-                    135deg,
-                    #0a0a0a 0%,
-                    #1a0000 50%,
-                    #000000 100%
-                );
-                min-height: 100vh;
-                padding: 20px;
-                color: white;
-            }
-
-            .container {
-                max-width: 100%;
-                margin: 0 auto;
-            }
-
-            .header {
-                text-align: center;
-                margin-bottom: 30px;
-                animation: fadeInDown 0.6s ease;
-            }
-
-            .header h1 {
-                font-size: 3.5em;
-                margin-bottom: 10px;
-                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-                color: #e94560;
-            }
-
-            .stats {
-                display: flex;
-                gap: 20px;
-                justify-content: center;
-                flex-wrap: wrap;
-                margin-bottom: 30px;
-            }
-
-            .stat-card {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                padding: 15px 30px;
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                text-align: center;
-            }
-
-            .stat-card .number {
-                font-size: 2em;
-                font-weight: bold;
-                color: #e94560;
-            }
-
-            .stat-card .label {
-                font-size: 0.9em;
-                opacity: 0.8;
-                margin-top: 5px;
-            }
-
-            .input-section {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                padding: 25px;
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-                margin-bottom: 30px;
-                animation: fadeInUp 0.6s ease;
-                max-width: 1000px;
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 30px;
-                transition: all 0.3s ease;
-                overflow: hidden;
-            }
-
-            .input-section.collapsed {
-                max-height: 60px;
-                padding: 15px 25px;
-            }
-
+            /* Custom styles for collapse functionality and special effects */
             .input-section.collapsed .input-group,
-            .input-section.collapsed .btn {
+            .input-section.collapsed .btn-wrapper {
                 display: none;
-            }
-
-            .collapse-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                cursor: pointer;
-            }
-
-            .collapse-header h3 {
-                margin: 0;
-                font-size: 1.2em;
-            }
-
-            .collapse-icon {
-                font-size: 1.5em;
-                transition: transform 0.3s ease;
             }
 
             .input-section.collapsed .collapse-icon {
                 transform: rotate(180deg);
-            }
-
-            #filtersSection {
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 15px;
-                padding: 20px;
-                margin-bottom: 20px;
-                border: 2px solid rgba(233, 69, 96, 0.3);
-                transition: all 0.3s ease;
-            }
-
-            #filtersSection .collapse-header {
-                margin-bottom: 20px;
-                padding-bottom: 15px;
-                border-bottom: 2px solid rgba(233, 69, 96, 0.3);
-            }
-
-            #filtersSection .collapse-header:hover {
-                color: #e94560;
-            }
-
-            #filtersSection.collapsed {
-                padding: 15px 20px;
-            }
-
-            #filtersSection.collapsed .collapse-header {
-                margin-bottom: 0;
-                padding-bottom: 0;
-                border-bottom: none;
             }
 
             #filtersSection.collapsed .filter-grid {
@@ -161,191 +61,27 @@
                 transform: rotate(180deg);
             }
 
-            .input-group {
-                margin-bottom: 15px;
-            }
-
-            .input-group label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 600;
-            }
-
-            .input-group textarea {
-                width: 100%;
-                padding: 12px 16px;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                background: rgba(0, 0, 0, 0.3);
-                color: white;
-                border-radius: 10px;
-                font-size: 14px;
-                font-family: "Courier New", monospace;
-                min-height: 150px;
-                transition: all 0.3s;
-            }
-
-            .input-group textarea:focus {
-                outline: none;
-                border-color: #e94560;
-                box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
-            }
-
-            .btn {
-                background: linear-gradient(135deg, #e94560 0%, #8b0000 100%);
-                color: white;
-                padding: 12px 32px;
-                border: none;
-                border-radius: 10px;
-                font-size: 16px;
-                font-weight: 600;
-                cursor: pointer;
-                transition:
-                    transform 0.2s,
-                    box-shadow 0.2s;
-            }
-
-            .btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 25px rgba(233, 69, 96, 0.4);
-            }
-
-            .controls {
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
-                padding: 25px;
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                margin-bottom: 30px;
+            .modal-poster.hidden {
                 display: none;
-                animation: fadeInUp 0.6s ease;
             }
 
-            .controls.visible {
-                display: block;
-            }
-
-            .filter-section {
-                margin-bottom: 20px;
-            }
-
-            .filter-section h3 {
-                margin-bottom: 10px;
-                font-size: 1em;
-                opacity: 0.9;
-            }
-
-            .search-box {
-                width: 100%;
-                padding: 12px 16px;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                background: rgba(0, 0, 0, 0.3);
-                color: white;
-                border-radius: 10px;
-                font-size: 16px;
-                margin-bottom: 20px;
-            }
-
-            .search-box:focus {
-                outline: none;
-                border-color: #e94560;
-            }
-
-            .filter-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
-                margin-bottom: 20px;
-            }
-
-            .filter-buttons {
-                display: flex;
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-
-            #genreFilters {
-                max-height: 200px;
-                overflow-y: auto;
-                padding-right: 5px;
-            }
-
+            /* Custom scrollbar for genre filters */
             #genreFilters::-webkit-scrollbar {
                 width: 8px;
             }
-
             #genreFilters::-webkit-scrollbar-track {
                 background: rgba(255, 255, 255, 0.1);
                 border-radius: 10px;
             }
-
             #genreFilters::-webkit-scrollbar-thumb {
                 background: #e94560;
                 border-radius: 10px;
             }
-
             #genreFilters::-webkit-scrollbar-thumb:hover {
                 background: #c41e3a;
             }
 
-            .filter-btn {
-                padding: 8px 16px;
-                border: 2px solid #e94560;
-                background: rgba(0, 0, 0, 0.3);
-                color: white;
-                border-radius: 20px;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-weight: 600;
-                font-size: 0.85em;
-            }
-
-            .filter-btn:hover,
-            .filter-btn.active {
-                background: #e94560;
-                transform: scale(1.05);
-            }
-
-            .sort-controls {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-
-            .sort-controls select {
-                padding: 10px 16px;
-                border: 2px solid rgba(255, 255, 255, 0.2);
-                background: rgba(0, 0, 0, 0.3);
-                color: white;
-                border-radius: 10px;
-                font-size: 14px;
-                cursor: pointer;
-            }
-
-            .cards-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 20px;
-                margin-top: 30px;
-            }
-
-            .card {
-                background: rgba(255, 255, 255, 0.08);
-                backdrop-filter: blur(10px);
-                border-radius: 20px;
-                padding: 0;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                transition:
-                    transform 0.3s,
-                    box-shadow 0.3s,
-                    border-color 0.3s;
-                animation: fadeInUp 0.6s ease;
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-            }
-
+            /* Card top border gradient */
             .card::before {
                 content: "";
                 position: absolute;
@@ -355,575 +91,93 @@
                 height: 4px;
                 background: linear-gradient(90deg, #e94560 0%, #8b0000 100%);
             }
-
-            .card:hover {
-                transform: translateY(-10px) scale(1.02);
-                box-shadow: 0 20px 40px rgba(233, 69, 96, 0.4);
-                border-color: #e94560;
-            }
-
-            .card-poster {
-                width: 100%;
-                height: 280px;
-                object-fit: cover;
-                background: linear-gradient(
-                    135deg,
-                    rgba(233, 69, 96, 0.2),
-                    rgba(0, 0, 0, 0.4)
-                );
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 2em;
-            }
-
-            .card-poster.loading {
-                animation: pulse 1.5s ease-in-out infinite;
-            }
-
-            @keyframes pulse {
-                0%,
-                100% {
-                    opacity: 0.6;
-                }
-                50% {
-                    opacity: 1;
-                }
-            }
-
-            .card-content {
-                padding: 15px;
-            }
-
-            .card-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: start;
-                margin-bottom: 12px;
-            }
-
-            .card h3 {
-                color: #fff;
-                font-size: 1.1em;
-                flex: 1;
-            }
-
-            .rating-badge {
-                background: linear-gradient(135deg, #e94560, #8b0000);
-                color: white;
-                padding: 6px 10px;
-                border-radius: 8px;
-                font-weight: bold;
-                font-size: 0.95em;
-                min-width: 45px;
-                text-align: center;
-                box-shadow: 0 4px 10px rgba(233, 69, 96, 0.3);
-            }
-
-            .rating-badge.gold {
-                background: linear-gradient(135deg, #ffd700, #ffb700);
-                color: #000;
-                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
-            }
-
-            .card-badges {
-                display: flex;
-                gap: 6px;
-                flex-wrap: wrap;
-                margin-bottom: 12px;
-            }
-
-            .badge {
-                padding: 4px 10px;
-                border-radius: 12px;
-                font-size: 0.7em;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .badge.film {
-                background: rgba(52, 152, 219, 0.3);
-                border: 1px solid #3498db;
-                color: #3498db;
-            }
-
-            .badge.series {
-                background: rgba(52, 231, 228, 0.3);
-                border: 1px solid #34e7e4;
-                color: #34e7e4;
-            }
-
-            .badge.rewatch {
-                background: rgba(46, 204, 113, 0.3);
-                border: 1px solid #2ecc71;
-                color: #2ecc71;
-            }
-
-            .badge.bogdan {
-                background: rgba(191, 64, 255, 0.3);
-                border: 2px solid #bf40ff;
-                color: #bf40ff;
-                font-weight: 700;
-            }
-
-            .badge.physical {
-                background: rgba(230, 126, 34, 0.3);
-                border: 1px solid #e67e22;
-                color: #e67e22;
-            }
-
-            .badge.physical-1 {
-                background: rgba(230, 126, 34, 0.3);
-                border: 1px solid #e67e22;
-                color: #e67e22;
-            }
-
-            .badge.physical-2 {
-                background: rgba(155, 89, 182, 0.3);
-                border: 1px solid #9b59b6;
-                color: #9b59b6;
-            }
-
-            .badge.physical-3 {
-                background: rgba(52, 152, 219, 0.3);
-                border: 1px solid #3498db;
-                color: #3498db;
-            }
-
-            .badge.physical-4 {
-                background: rgba(46, 204, 113, 0.3);
-                border: 1px solid #2ecc71;
-                color: #2ecc71;
-            }
-
-            .badge.physical-5 {
-                background: rgba(241, 196, 15, 0.3);
-                border: 1px solid #f1c40f;
-                color: #f1c40f;
-            }
-
-            .card-field {
-                margin: 6px 0;
-                padding: 5px 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                font-size: 0.85em;
-            }
-
-            .card-field:last-child {
-                border-bottom: none;
-            }
-
-            .field-label {
-                font-weight: 600;
-                color: #e94560;
-                font-size: 0.8em;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                opacity: 0.9;
-            }
-
-            .field-value {
-                color: #fff;
-                margin-top: 4px;
-                opacity: 0.9;
-            }
-
-            .field-value.golden {
-                background: linear-gradient(135deg, #ffd700, #ffb700);
-                color: #000;
-                font-weight: bold;
-                padding: 6px 12px;
-                border-radius: 8px;
-                display: inline-block;
-                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
-            }
-
-            .modal {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.9);
-                animation: fadeIn 0.3s ease;
-            }
-
-            .modal.visible {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-            }
-
-            .modal-content {
-                background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%);
-                border-radius: 20px;
-                max-width: 1100px;
-                width: 100%;
-                max-height: 90vh;
-                overflow-y: auto;
-                position: relative;
-                border: 2px solid rgba(233, 69, 96, 0.5);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-                animation: slideUp 0.3s ease;
-                display: flex;
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                }
-                to {
-                    opacity: 1;
-                }
-            }
-
-            @keyframes slideUp {
-                from {
-                    transform: translateY(50px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-
-            .modal-poster {
-                width: 350px;
-                min-width: 350px;
-                height: auto;
-                min-height: 100%;
-                object-fit: contain;
-                border-radius: 20px 0 0 20px;
-                background: linear-gradient(
-                    135deg,
-                    rgba(233, 69, 96, 0.3),
-                    rgba(0, 0, 0, 0.5)
-                );
-            }
-
-            .modal-poster.hidden {
-                display: none;
-            }
-
-            .modal-body {
-                padding: 30px;
-                flex: 1;
-                overflow-y: auto;
-            }
-
-            .modal-header {
-                margin-bottom: 20px;
-            }
-
-            .modal-header h2 {
-                font-size: 2.5em;
-                color: #fff;
-                margin-bottom: 15px;
-                padding-right: 60px;
-            }
-
-            .modal-rating {
-                display: inline-block;
-            }
-
-            .close-btn {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: rgba(0, 0, 0, 0.7);
-                border: 2px solid #e94560;
-                color: white;
-                font-size: 2em;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s;
-                z-index: 10;
-            }
-
-            .close-btn:hover {
-                background: #e94560;
-                transform: rotate(90deg);
-            }
-
-            .modal-badges {
-                display: flex;
-                gap: 10px;
-                flex-wrap: wrap;
-                margin-bottom: 20px;
-            }
-
-            .modal-field {
-                margin: 15px 0;
-                padding: 15px;
-                background: rgba(255, 255, 255, 0.05);
-                border-radius: 10px;
-                border-left: 4px solid #e94560;
-            }
-
-            .modal-field-label {
-                font-weight: 600;
-                color: #e94560;
-                font-size: 0.9em;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin-bottom: 8px;
-            }
-
-            .modal-field-value {
-                color: #fff;
-                font-size: 1.1em;
-                line-height: 1.6;
-            }
-
-            .modal-field-value.golden {
-                background: linear-gradient(135deg, #ffd700, #ffb700);
-                color: #000;
-                font-weight: bold;
-                padding: 8px 16px;
-                border-radius: 8px;
-                display: inline-block;
-                box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
-            }
-
-            .loading,
-            .success,
-            .error {
-                text-align: center;
-                padding: 20px;
-                border-radius: 10px;
-                margin: 20px auto;
-                max-width: 1000px;
-                display: none;
-            }
-
-            .loading.visible,
-            .success.visible,
-            .error.visible {
-                display: block;
-            }
-
-            .loading {
-                color: white;
-                font-size: 1.5em;
-            }
-
-            .success {
-                background: rgba(46, 204, 113, 0.2);
-                border: 2px solid #2ecc71;
-                color: #2ecc71;
-            }
-
-            .error {
-                background: rgba(231, 76, 60, 0.2);
-                border: 2px solid #e74c3c;
-                color: #e74c3c;
-            }
-
-            @keyframes fadeInDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            @media (max-width: 768px) {
-                .header h1 {
-                    font-size: 2em;
-                }
-
-                .cards-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .filter-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .modal.visible {
-                    padding: 10px;
-                }
-
-                .modal-content {
-                    max-height: 95vh;
-                    flex-direction: column;
-                    border-radius: 15px;
-                }
-
-                .modal-poster {
-                    width: 120px;
-                    min-width: 120px;
-                    height: auto;
-                    max-height: 180px;
-                    object-fit: contain;
-                    border-radius: 10px;
-                    margin: 15px;
-                    float: left;
-                }
-
-                .modal-poster.hidden {
-                    display: none;
-                }
-
-                .modal-body {
-                    padding: 15px;
-                    overflow: auto;
-                }
-
-                .modal-badges {
-                    display: flex;
-                    gap: 8px;
-                    flex-wrap: wrap;
-                    margin-bottom: 10px;
-                    margin-top: 15px;
-                }
-
-                .modal-header {
-                    clear: both;
-                    padding-top: 0;
-                }
-
-                .modal-header h2 {
-                    font-size: 1.3em;
-                    padding-right: 50px;
-                    margin-bottom: 8px;
-                }
-
-                .modal-rating {
-                    margin-bottom: 10px;
-                }
-
-                .close-btn {
-                    top: 15px;
-                    right: 15px;
-                    width: 40px;
-                    height: 40px;
-                    font-size: 1.5em;
-                }
-
-                .modal-field {
-                    margin: 10px 0;
-                    padding: 12px;
-                }
-
-                .modal-field-value {
-                    font-size: 1em;
-                }
-            }
         </style>
     </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>🎬 Movie & Series Collection</h1>
+    <body class="min-h-screen p-5 text-white bg-gradient-to-br from-[#0a0a0a] via-[#1a0000] to-black font-sans">
+        <div class="container mx-auto max-w-full">
+            <div class="text-center mb-8 animate-fadeInDown">
+                <h1 class="text-5xl md:text-6xl mb-2.5 text-primary font-extrabold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5)">🎬 Movie & Series Collection</h1>
             </div>
 
-            <div class="stats" id="stats"></div>
+            <div class="flex gap-5 justify-center flex-wrap mb-8" id="stats"></div>
 
-            <div class="input-section" id="inputSection">
-                <div class="collapse-header" onclick="toggleInputSection()">
-                    <h3>📋 Load Your Collection</h3>
-                    <span class="collapse-icon">▼</span>
+            <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 shadow-2xl mb-8 animate-fadeInUp max-w-4xl mx-auto transition-all duration-300 overflow-hidden input-section" id="inputSection">
+                <div class="flex justify-between items-center cursor-pointer collapse-header" onclick="toggleInputSection()">
+                    <h3 class="m-0 text-xl">📋 Load Your Collection</h3>
+                    <span class="text-2xl transition-transform duration-300 collapse-icon">▼</span>
                 </div>
-                <div class="input-group">
-                    <label for="csvData"
-                        >Paste Your Watchlist (Ctrl+A, Ctrl+C, Ctrl+V)</label
-                    >
+                <div class="mb-4 input-group">
+                    <label for="csvData" class="block mb-2 font-semibold">Paste Your Watchlist (Ctrl+A, Ctrl+C, Ctrl+V)</label>
                     <textarea
                         id="csvData"
                         placeholder="Paste your data here..."
+                        class="w-full px-4 py-3 border-2 border-white/20 bg-black/30 text-white rounded-xl text-sm font-mono min-h-[150px] transition-all duration-300 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20"
                     ></textarea>
                 </div>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap">
-                    <button class="btn" onclick="loadData()">
+                <div class="flex gap-2.5 flex-wrap btn-wrapper">
+                    <button class="bg-gradient-to-br from-primary to-primary-dark text-white px-8 py-3 border-none rounded-xl text-base font-semibold cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(233,69,96,0.4)]" onclick="loadData()">
                         Load from Paste
                     </button>
-                    <button class="btn" onclick="loadFromGitHub()">
+                    <button class="bg-gradient-to-br from-primary to-primary-dark text-white px-8 py-3 border-none rounded-xl text-base font-semibold cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(233,69,96,0.4)]" onclick="loadFromGitHub()">
                         🔄 Reload from GitHub
                     </button>
                 </div>
             </div>
 
-            <div class="error" id="error"></div>
-            <div class="success" id="success"></div>
-            <div class="loading" id="loading">
+            <div class="text-center p-5 rounded-xl my-5 mx-auto max-w-4xl hidden bg-red-500/20 border-2 border-red-500 text-red-500" id="error"></div>
+            <div class="text-center p-5 rounded-xl my-5 mx-auto max-w-4xl hidden bg-green-500/20 border-2 border-green-500 text-green-500" id="success"></div>
+            <div class="text-center p-5 rounded-xl my-5 mx-auto max-w-4xl hidden text-white text-2xl" id="loading">
                 Loading your collection... ✨
             </div>
 
-            <div class="controls" id="controls">
+            <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 mb-8 animate-fadeInUp hidden controls" id="controls">
                 <input
                     type="text"
-                    class="search-box"
+                    class="w-full px-4 py-3 border-2 border-white/20 bg-black/30 text-white rounded-xl text-base mb-5 focus:outline-none focus:border-primary"
                     id="searchBox"
                     placeholder="🔍 Search by title, genre, or anything..."
                     onkeyup="filterCards()"
                 />
 
-                <div id="filtersSection" class="collapsed">
-                    <div class="collapse-header" onclick="toggleFilters()">
-                        <h3>🔍 Filters</h3>
-                        <span class="collapse-icon">▼</span>
+                <div id="filtersSection" class="bg-white/5 rounded-2xl p-3 mb-5 border-2 border-primary/30 transition-all duration-300 collapsed">
+                    <div class="flex justify-between items-center cursor-pointer collapse-header hover:text-primary" onclick="toggleFilters()">
+                        <h3 class="text-sm m-0">🔍 Filters</h3>
+                        <span class="text-lg transition-transform duration-300 collapse-icon">▼</span>
                     </div>
 
-                    <div class="filter-grid">
-                        <div class="filter-section">
-                            <h3>📺 Type</h3>
-                            <div class="filter-buttons" id="typeFilters"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-3 filter-grid">
+                        <div>
+                            <h3 class="mb-2 text-sm opacity-90">📺 Type</h3>
+                            <div class="flex gap-2 flex-wrap filter-buttons" id="typeFilters"></div>
                         </div>
 
-                        <div class="filter-section">
-                            <h3>🎭 Genre</h3>
-                            <div class="filter-buttons" id="genreFilters"></div>
+                        <div>
+                            <h3 class="mb-2 text-sm opacity-90">🎭 Genre</h3>
+                            <div class="flex gap-2 flex-wrap max-h-[200px] overflow-y-auto pr-1 filter-buttons" id="genreFilters"></div>
                         </div>
 
-                        <div class="filter-section">
-                            <h3>⭐ Rating</h3>
-                            <div class="filter-buttons" id="ratingFilters"></div>
+                        <div>
+                            <h3 class="mb-2 text-sm opacity-90">⭐ Rating</h3>
+                            <div class="flex gap-2 flex-wrap filter-buttons" id="ratingFilters"></div>
                         </div>
 
-                        <div class="filter-section">
-                            <h3>💿 Physical Format</h3>
-                            <div class="filter-buttons" id="physicalFormatFilters"></div>
+                        <div>
+                            <h3 class="mb-2 text-sm opacity-90">💿 Physical Format</h3>
+                            <div class="flex gap-2 flex-wrap filter-buttons" id="physicalFormatFilters"></div>
                         </div>
 
-                        <div class="filter-section">
-                            <h3>🎥 Special</h3>
-                            <div class="filter-buttons" id="specialFilters"></div>
+                        <div>
+                            <h3 class="mb-2 text-sm opacity-90">🎥 Special</h3>
+                            <div class="flex gap-2 flex-wrap filter-buttons" id="specialFilters"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="sort-controls">
-                    <label style="font-weight: 600">Sort by:</label>
-                    <select id="sortSelect" onchange="sortCards()">
+                <div class="flex gap-2.5 items-center flex-wrap">
+                    <label class="font-semibold">Sort by:</label>
+                    <select id="sortSelect" onchange="sortCards()" class="px-4 py-2.5 border-2 border-white/20 bg-black/30 text-white rounded-xl text-sm cursor-pointer">
                         <option value="name">Name (A-Z)</option>
-                        <option value="rating-desc">
-                            Rating (High to Low)
-                        </option>
+                        <option value="rating-desc">Rating (High to Low)</option>
                         <option value="rating-asc">Rating (Low to High)</option>
                         <option value="date-latest">Latest Watch</option>
                         <option value="date-first">First Watch</option>
@@ -932,14 +186,14 @@
                 </div>
             </div>
 
-            <div class="cards-grid" id="cardsGrid"></div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-5 mt-8" id="cardsGrid"></div>
         </div>
 
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <button class="close-btn" onclick="closeModal()">×</button>
-                <img id="modalPoster" class="modal-poster hidden" alt="" />
-                <div class="modal-body" id="modalBody"></div>
+        <div class="hidden fixed z-[1000] left-0 top-0 w-full h-full bg-black/90 animate-fadeIn items-center justify-center p-5 modal" id="modal">
+            <div class="bg-gradient-to-br from-[#0a0a0a] to-[#1a0000] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative border-2 border-primary/50 shadow-2xl animate-slideUp flex flex-col md:flex-row modal-content">
+                <button class="absolute top-5 right-5 bg-black/70 border-2 border-primary text-white text-3xl w-12 h-12 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 z-10 hover:bg-primary hover:rotate-90 close-btn" onclick="closeModal()">×</button>
+                <img id="modalPoster" class="w-full md:w-[350px] md:min-w-[350px] h-auto min-h-full object-contain rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none bg-gradient-to-br from-primary/30 to-black/50 modal-poster hidden" alt="" />
+                <div class="p-8 flex-1 overflow-y-auto modal-body" id="modalBody"></div>
             </div>
         </div>
 
@@ -970,15 +224,23 @@
             function showError(message) {
                 const errorEl = document.getElementById("error");
                 errorEl.textContent = message;
-                errorEl.classList.add("visible");
-                setTimeout(() => errorEl.classList.remove("visible"), 8000);
+                errorEl.classList.remove("hidden");
+                errorEl.classList.add("block");
+                setTimeout(() => {
+                    errorEl.classList.add("hidden");
+                    errorEl.classList.remove("block");
+                }, 8000);
             }
 
             function showSuccess(message) {
                 const successEl = document.getElementById("success");
                 successEl.textContent = message;
-                successEl.classList.add("visible");
-                setTimeout(() => successEl.classList.remove("visible"), 3000);
+                successEl.classList.remove("hidden");
+                successEl.classList.add("block");
+                setTimeout(() => {
+                    successEl.classList.add("hidden");
+                    successEl.classList.remove("block");
+                }, 3000);
 
                 // Collapse input section after successful load
                 const inputSection = document.getElementById("inputSection");
@@ -1031,9 +293,14 @@
             });
 
             function showLoading(show) {
-                document
-                    .getElementById("loading")
-                    .classList.toggle("visible", show);
+                const loading = document.getElementById("loading");
+                if (show) {
+                    loading.classList.remove("hidden");
+                    loading.classList.add("block");
+                } else {
+                    loading.classList.add("hidden");
+                    loading.classList.remove("block");
+                }
             }
 
             async function fetchMoviePoster(
@@ -1198,7 +465,9 @@
                 displayStats();
                 createFilters();
                 displayCards(filteredData);
-                document.getElementById("controls").classList.add("visible");
+                const controls = document.getElementById("controls");
+                controls.classList.remove("hidden");
+                controls.classList.add("block");
                 showLoading(false);
             }
 
@@ -1251,25 +520,25 @@
                 ).length;
 
                 statsEl.innerHTML = `
-                <div class="stat-card">
-                    <div class="number">${totalCount}</div>
-                    <div class="label">Total Titles</div>
+                <div class="bg-white/10 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/20 text-center">
+                    <div class="text-3xl font-bold text-primary">${totalCount}</div>
+                    <div class="text-sm opacity-80 mt-1">Total Titles</div>
                 </div>
-                <div class="stat-card">
-                    <div class="number">${films}</div>
-                    <div class="label">Films</div>
+                <div class="bg-white/10 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/20 text-center">
+                    <div class="text-3xl font-bold text-primary">${films}</div>
+                    <div class="text-sm opacity-80 mt-1">Films</div>
                 </div>
-                <div class="stat-card">
-                    <div class="number">${series}</div>
-                    <div class="label">Series</div>
+                <div class="bg-white/10 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/20 text-center">
+                    <div class="text-3xl font-bold text-primary">${series}</div>
+                    <div class="text-sm opacity-80 mt-1">Series</div>
                 </div>
-                <div class="stat-card">
-                    <div class="number">${avgRating}</div>
-                    <div class="label">Avg Rating</div>
+                <div class="bg-white/10 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/20 text-center">
+                    <div class="text-3xl font-bold text-primary">${avgRating}</div>
+                    <div class="text-sm opacity-80 mt-1">Avg Rating</div>
                 </div>
-                <div class="stat-card">
-                    <div class="number">${withBogdan}</div>
-                    <div class="label">With Bogdan</div>
+                <div class="bg-white/10 backdrop-blur-md px-8 py-4 rounded-2xl border border-white/20 text-center">
+                    <div class="text-3xl font-bold text-primary">${withBogdan}</div>
+                    <div class="text-sm opacity-80 mt-1">With Bogdan</div>
                 </div>
             `;
             }
@@ -1281,7 +550,7 @@
                 ["All", "Film", "Series"].forEach((type) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "filter-btn" + (type === "All" ? " active" : "");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (type === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
                     btn.textContent = type;
                     btn.onclick = () => setFilter("type", type.toLowerCase());
                     typeContainer.appendChild(btn);
@@ -1306,7 +575,7 @@
                     }
                 });
                 const allGenreBtn = document.createElement("button");
-                allGenreBtn.className = "filter-btn active";
+                allGenreBtn.className = "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
                 allGenreBtn.textContent = "All";
                 allGenreBtn.onclick = () => setFilter("genre", "all");
                 genreContainer.appendChild(allGenreBtn);
@@ -1315,7 +584,7 @@
                     .sort((a, b) => a[1].localeCompare(b[1]))
                     .forEach(([normalized, displayName]) => {
                         const btn = document.createElement("button");
-                        btn.className = "filter-btn";
+                        btn.className = "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
                         btn.textContent = displayName;
                         btn.onclick = () => setFilter("genre", normalized);
                         genreContainer.appendChild(btn);
@@ -1328,7 +597,7 @@
                 ["All", "10", "9-10", "8-9", "7-8", "<7"].forEach((rating) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "filter-btn" + (rating === "All" ? " active" : "");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (rating === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
                     btn.textContent = rating === "All" ? "All" : rating;
                     btn.onclick = () =>
                         setFilter("rating", rating.toLowerCase());
@@ -1357,7 +626,7 @@
                     }
                 });
                 const allFormatBtn = document.createElement("button");
-                allFormatBtn.className = "filter-btn active";
+                allFormatBtn.className = "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
                 allFormatBtn.textContent = "All";
                 allFormatBtn.onclick = () => setFilter("physicalFormat", "all");
                 formatContainer.appendChild(allFormatBtn);
@@ -1366,7 +635,7 @@
                     .sort((a, b) => a[1].localeCompare(b[1]))
                     .forEach(([normalized, displayName]) => {
                         const btn = document.createElement("button");
-                        btn.className = "filter-btn";
+                        btn.className = "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
                         btn.textContent = displayName;
                         btn.onclick = () => setFilter("physicalFormat", normalized);
                         formatContainer.appendChild(btn);
@@ -1384,7 +653,7 @@
                 ].forEach((special) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "filter-btn" + (special === "All" ? " active" : "");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (special === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
                     btn.textContent = special;
                     btn.onclick = () =>
                         setFilter("special", special.toLowerCase());
@@ -1396,11 +665,13 @@
                 activeFilters[category] = value;
 
                 document
-                    .querySelectorAll(`#${category}Filters .filter-btn`)
+                    .querySelectorAll(`#${category}Filters button`)
                     .forEach((btn) => {
-                        btn.classList.remove("active");
+                        btn.classList.remove("!bg-primary", "scale-105");
+                        btn.classList.add("bg-black/30");
                     });
-                event.target.classList.add("active");
+                event.target.classList.remove("bg-black/30");
+                event.target.classList.add("!bg-primary", "scale-105");
 
                 applyFilters();
             }
@@ -1536,18 +807,18 @@
 
                 if (data.length === 0) {
                     grid.innerHTML =
-                        '<p style="color: white; text-align: center; width: 100%; font-size: 1.2em;">No titles match your filters 🎬</p>';
+                        '<p class="text-white text-center w-full text-xl">No titles match your filters 🎬</p>';
                     return;
                 }
 
                 for (const [index, row] of data.entries()) {
                     const card = document.createElement("div");
-                    card.className = "card";
+                    card.className = "bg-white/8 backdrop-blur-md rounded-3xl p-0 border border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-300 animate-fadeInUp relative overflow-hidden cursor-pointer hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(233,69,96,0.4)] hover:border-primary card";
                     card.style.animationDelay = `${index * 0.03}s`;
                     card.onclick = () => openModal(row);
 
                     const posterDiv = document.createElement("div");
-                    posterDiv.className = "card-poster loading";
+                    posterDiv.className = "w-full h-[280px] bg-gradient-to-br from-primary/20 to-black/40 flex items-center justify-center text-3xl animate-pulse-slow";
                     posterDiv.textContent = "🎬";
 
                     const rating = row["Rating ?/10"];
@@ -1560,17 +831,27 @@
                     const ratingValue = parseFloat(rating);
                     const isGoldRating = ratingValue === 11;
 
+                    const ratingBadgeClass = isGoldRating
+                        ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]'
+                        : 'bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]';
+
+                    const badgeFilm = 'bg-blue-500/30 border border-blue-500 text-blue-500';
+                    const badgeSeries = 'bg-cyan-400/30 border border-cyan-400 text-cyan-400';
+                    const badgeBogdan = 'bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold';
+                    const badgePhysical = 'bg-orange-500/30 border border-orange-500 text-orange-500';
+                    const badgeRewatch = 'bg-green-500/30 border border-green-500 text-green-500';
+
                     let html = `
-                    <div class="card-content">
-                        <div class="card-header">
-                            <h3>${row["Name"]}</h3>
-                            ${rating && rating !== "?" ? `<div class="rating-badge ${isGoldRating ? 'gold' : ''}">${rating}/10</div>` : ""}
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-white text-lg flex-1">${row["Name"]}</h3>
+                            ${rating && rating !== "?" ? `<div class="px-2.5 py-1.5 rounded-lg font-bold text-sm min-w-[45px] text-center ${ratingBadgeClass}">${rating}/10</div>` : ""}
                         </div>
-                        <div class="card-badges">
-                            <span class="badge ${row["Type"].toLowerCase()}">${row["Type"]}</span>
-                            ${withBogdan ? '<span class="badge bogdan">👥 Bogdan</span>' : ""}
-                            ${hasPhysical ? '<span class="badge physical">💿 Physical</span>' : ""}
-                            ${rewatchPotential >= 9 ? '<span class="badge rewatch">♻️ Rewatch</span>' : ""}
+                        <div class="flex gap-1.5 flex-wrap mb-3">
+                            <span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === 'film' ? badgeFilm : badgeSeries}">${row["Type"]}</span>
+                            ${withBogdan ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgeBogdan}">👥 Bogdan</span>` : ""}
+                            ${hasPhysical ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgePhysical}">💿 Physical</span>` : ""}
+                            ${rewatchPotential >= 9 ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgeRewatch}">♻️ Rewatch</span>` : ""}
                         </div>
                 `;
 
@@ -1578,6 +859,7 @@
                         if (
                             row[header] &&
                             row[header].trim() &&
+                            row[header].trim().toUpperCase() !== "N/A" &&
                             header !== "Name" &&
                             header !== "Type" &&
                             header !== "Rating ?/10" &&
@@ -1588,7 +870,8 @@
                             const isWatchCount = header === "Watch count";
                             const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
                             const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
-                            html += `<div class="card-field"><div class="field-label">${header}</div><div class="field-value ${isGoldenWatchCount ? 'golden' : ''}">${row[header]}</div></div>`;
+                            const goldenClass = isGoldenWatchCount ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-3 py-1.5 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]' : '';
+                            html += `<div class="my-1.5 py-1.5 border-b border-white/10 text-sm last:border-b-0"><div class="font-semibold text-primary text-xs uppercase tracking-wide opacity-90">${header}</div><div class="text-white mt-1 opacity-90 ${goldenClass}">${row[header]}</div></div>`;
                         }
                     });
 
@@ -1608,11 +891,11 @@
                         if (posterUrl) {
                             const img = document.createElement("img");
                             img.src = posterUrl;
-                            img.className = "card-poster";
+                            img.className = "w-full h-[280px] object-contain bg-gradient-to-br from-primary/20 to-black/40";
                             img.alt = row["Name"];
                             posterDiv.replaceWith(img);
                         } else {
-                            posterDiv.classList.remove("loading");
+                            posterDiv.classList.remove("animate-pulse-slow");
                         }
                     });
                 }
@@ -1633,26 +916,44 @@
                 const ratingValue = parseFloat(rating);
                 const isGoldRating = ratingValue === 11;
 
+                // Physical format badge colors
+                const physicalColors = [
+                    'bg-orange-500/30 border border-orange-500 text-orange-500',
+                    'bg-purple-500/30 border border-purple-500 text-purple-500',
+                    'bg-blue-500/30 border border-blue-500 text-blue-500',
+                    'bg-green-500/30 border border-green-500 text-green-500',
+                    'bg-yellow-500/30 border border-yellow-500 text-yellow-500'
+                ];
+
                 // Create physical format badges
                 let physicalBadges = "";
                 if (hasPhysical) {
                     const formats = row["Physical Format"].split(',').map(f => f.trim());
                     physicalBadges = formats.map((format, index) => {
-                        const colorClass = `physical-${(index % 5) + 1}`;
-                        return `<span class="badge ${colorClass}" style="font-size: 1em; padding: 8px 16px;">💿 ${format}</span>`;
+                        const colorClass = physicalColors[index % 5];
+                        return `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${colorClass}">💿 ${format}</span>`;
                     }).join('\n                    ');
                 }
 
+                const badgeFilm = 'bg-blue-500/30 border border-blue-500 text-blue-500';
+                const badgeSeries = 'bg-cyan-400/30 border border-cyan-400 text-cyan-400';
+                const badgeBogdan = 'bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold';
+                const badgeRewatch = 'bg-green-500/30 border border-green-500 text-green-500';
+
+                const ratingBadgeClass = isGoldRating
+                    ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]'
+                    : 'bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]';
+
                 let html = `
-                <div class="modal-badges">
-                    <span class="badge ${row["Type"].toLowerCase()}" style="font-size: 1em; padding: 8px 16px;">${row["Type"]}</span>
-                    ${withBogdan ? '<span class="badge bogdan" style="font-size: 1em; padding: 8px 16px;">👥 Bogdan</span>' : ""}
+                <div class="flex gap-2.5 flex-wrap mb-5">
+                    <span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === 'film' ? badgeFilm : badgeSeries}">${row["Type"]}</span>
+                    ${withBogdan ? `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${badgeBogdan}">👥 Bogdan</span>` : ""}
                     ${physicalBadges}
-                    ${rewatchPotential >= 9 ? '<span class="badge rewatch" style="font-size: 1em; padding: 8px 16px;">♻️ High Rewatch</span>' : ""}
+                    ${rewatchPotential >= 9 ? `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${badgeRewatch}">♻️ High Rewatch</span>` : ""}
                 </div>
-                <div class="modal-header">
-                    <h2>${row["Name"]}</h2>
-                    ${rating && rating !== "?" ? `<div class="modal-rating"><div class="rating-badge ${isGoldRating ? 'gold' : ''}" style="font-size: 1.5em; padding: 12px 20px;">${rating}/10</div></div>` : ""}
+                <div class="mb-5">
+                    <h2 class="text-4xl text-white mb-4 pr-16">${row["Name"]}</h2>
+                    ${rating && rating !== "?" ? `<div class="inline-block"><div class="px-5 py-3 rounded-lg font-bold text-2xl min-w-[60px] text-center ${ratingBadgeClass}">${rating}/10</div></div>` : ""}
                 </div>
             `;
 
@@ -1660,6 +961,7 @@
                     if (
                         row[header] &&
                         row[header].trim() &&
+                        row[header].trim().toUpperCase() !== "N/A" &&
                         header !== "Name" &&
                         header !== "Type" &&
                         header !== "Rating ?/10" &&
@@ -1670,10 +972,11 @@
                         const isWatchCount = header === "Watch count";
                         const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
                         const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
+                        const goldenClass = isGoldenWatchCount ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-4 py-2 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]' : '';
                         html += `
-                        <div class="modal-field">
-                            <div class="modal-field-label">${header}</div>
-                            <div class="modal-field-value ${isGoldenWatchCount ? 'golden' : ''}">${row[header]}</div>
+                        <div class="my-4 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
+                            <div class="font-semibold text-primary text-sm uppercase tracking-wide mb-2">${header}</div>
+                            <div class="text-white text-lg leading-relaxed ${goldenClass}">${row[header]}</div>
                         </div>
                     `;
                     }
@@ -1696,13 +999,15 @@
                     }
                 });
 
-                modal.classList.add("visible");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
                 document.body.style.overflow = "hidden";
             }
 
             function closeModal() {
                 const modal = document.getElementById("modal");
-                modal.classList.remove("visible");
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
                 document.body.style.overflow = "auto";
             }
 
