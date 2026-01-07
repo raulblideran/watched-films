@@ -44,21 +44,20 @@
         </script>
         <style>
             /* Custom styles for collapse functionality and special effects */
-            .input-section.collapsed .input-group,
-            .input-section.collapsed .btn-wrapper {
-                display: none;
-            }
-
-            .input-section.collapsed .collapse-icon {
-                transform: rotate(180deg);
-            }
-
             #filtersSection.collapsed {
                 max-height: 0 !important;
             }
 
             #filtersSection:not(.collapsed) {
                 max-height: 1000px;
+            }
+
+            #inputSection.collapsed {
+                max-height: 0 !important;
+            }
+
+            #inputSection:not(.collapsed) {
+                max-height: 500px;
             }
 
             .modal-poster.hidden {
@@ -94,52 +93,24 @@
             }
         </style>
     </head>
-    <body class="min-h-screen p-5 text-white bg-gradient-to-br from-[#0a0a0a] via-[#1a0000] to-black font-sans">
+    <body class="min-h-screen p-5 text-white bg-gradient-to-br from-[#1a0808] via-[#2a0a0a] to-[#0f0f0f] font-sans">
         <div class="container mx-auto max-w-full">
             <!-- Hero Section -->
             <div class="text-center mb-12 animate-fadeInDown">
-                <h1 class="text-6xl md:text-7xl mb-3 font-black bg-gradient-to-r from-primary via-red-400 to-primary bg-clip-text text-transparent" style="text-shadow: 0 0 40px rgba(233, 69, 96, 0.3)">
-                    🎬 Movie & Series Collection
+                <h1 class="text-6xl md:text-7xl mb-3 font-black">
+                    <span class="text-6xl md:text-7xl">🎬</span>
+                    <span class="bg-gradient-to-r from-primary via-red-400 to-primary bg-clip-text text-transparent" style="text-shadow: 0 0 40px rgba(233, 69, 96, 0.3)">Movie & Series Collection</span>
                 </h1>
             </div>
 
             <!-- Stats Section -->
             <div class="flex gap-4 justify-center flex-wrap mb-10 max-w-6xl mx-auto" id="stats"></div>
 
-            <!-- Load Section -->
-            <div class="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl p-5 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] mb-10 animate-fadeInUp max-w-3xl mx-auto transition-all duration-300 overflow-hidden hover:border-primary/30 input-section" id="inputSection">
-                <div class="flex justify-between items-center cursor-pointer collapse-header" onclick="toggleInputSection()">
-                    <div class="flex items-center gap-2">
-                        <span class="text-2xl">📋</span>
-                        <h3 class="m-0 text-base font-semibold">Load Collection</h3>
-                    </div>
-                    <span class="text-lg transition-transform duration-300 collapse-icon">▼</span>
-                </div>
-                <div class="mb-3 input-group">
-                    <label for="csvData" class="block mb-2 text-sm text-gray-300">Paste your watchlist data</label>
-                    <textarea
-                        id="csvData"
-                        placeholder="Paste your CSV data here..."
-                        class="w-full px-3 py-2.5 border border-white/10 bg-black/40 text-white rounded-lg text-xs font-mono min-h-[120px] transition-all duration-300 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 hover:border-white/20"
-                    ></textarea>
-                </div>
-                <div class="flex gap-2 flex-wrap btn-wrapper">
-                    <button class="bg-gradient-to-r from-primary to-red-600 text-white px-6 py-2 border-none rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(233,69,96,0.5)]" onclick="loadData()">
-                        Load from Paste
-                    </button>
-                    <button class="bg-gradient-to-r from-gray-700 to-gray-800 text-white px-6 py-2 border-none rounded-lg text-sm font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]" onclick="loadFromGitHub()">
-                        🔄 Reload from GitHub
-                    </button>
-                </div>
-            </div>
+            <!-- Notification toasts -->
+            <div class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-red-500/10 border border-red-500/30 text-red-400 text-sm" id="error"></div>
+            <div class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-green-500/10 border border-green-500/30 text-green-400 text-sm" id="success"></div>
 
-            <div class="text-center p-4 rounded-xl my-5 mx-auto max-w-2xl hidden bg-red-500/10 border border-red-500/30 text-red-400 text-sm backdrop-blur-md" id="error"></div>
-            <div class="text-center p-4 rounded-xl my-5 mx-auto max-w-2xl hidden bg-green-500/10 border border-green-500/30 text-green-400 text-sm backdrop-blur-md" id="success"></div>
-            <div class="text-center p-4 rounded-xl my-5 mx-auto max-w-2xl hidden text-white text-lg backdrop-blur-md bg-white/5 border border-white/10" id="loading">
-                <span class="inline-block animate-pulse-slow">✨</span> Loading your collection...
-            </div>
-
-            <div class="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-2xl border border-white/10 mb-8 animate-fadeInUp hidden controls p-4" id="controls">
+            <div class="relative z-50 bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-xl rounded-2xl border border-white/15 mb-8 animate-fadeInUp controls p-4" id="controls">
                 <!-- Search and Sort Row -->
                 <div class="flex gap-3 items-center mb-4 flex-wrap">
                     <div class="flex-1 min-w-[300px]">
@@ -151,20 +122,23 @@
                             onkeyup="filterCards()"
                         />
                     </div>
-                    <div class="relative">
-                        <select
-                            id="sortSelect"
-                            onchange="sortCards()"
-                            class="appearance-none flex items-center gap-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-yellow-500 transition-all cursor-pointer focus:outline-none pr-8"
+                    <div class="relative z-[100] w-[250px]">
+                        <button
+                            id="sortButton"
+                            onclick="toggleSortDropdown()"
+                            class="flex items-center justify-between gap-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-yellow-500 transition-all cursor-pointer w-full"
                         >
-                            <option value="name" class="bg-gray-900 text-white">📝 Name (A-Z)</option>
-                            <option value="rating-desc" class="bg-gray-900 text-white">⭐ Rating (High to Low)</option>
-                            <option value="rating-asc" class="bg-gray-900 text-white">⭐ Rating (Low to High)</option>
-                            <option value="date-latest" class="bg-gray-900 text-white">📅 Latest Watch</option>
-                            <option value="date-first" class="bg-gray-900 text-white">📅 First Watch</option>
-                            <option value="watch-count" class="bg-gray-900 text-white">🔢 Watch Count</option>
-                        </select>
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-yellow-500 pointer-events-none text-xs">▼</span>
+                            <span id="sortButtonText">📝 Name (A-Z)</span>
+                            <span class="text-xs">▼</span>
+                        </button>
+                        <div id="sortDropdown" class="hidden absolute top-full right-0 mt-2 w-full bg-gray-900 border border-yellow-500/30 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden z-[1000]">
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-yellow-500 bg-yellow-500/20 hover:bg-yellow-500/30 transition-all whitespace-nowrap" data-active="true" onclick="selectSort('name', '📝 Name (A-Z)', this)">📝 Name (A-Z)</div>
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('rating-desc', '⭐ Rating (High to Low)', this)">⭐ Rating (High to Low)</div>
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('rating-asc', '⭐ Rating (Low to High)', this)">⭐ Rating (Low to High)</div>
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('date-latest', '📅 Latest Watch', this)">📅 Latest Watch</div>
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('date-first', '📅 First Watch', this)">📅 First Watch</div>
+                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('watch-count', '🔢 Watch Count', this)">🔢 Watch Count</div>
+                        </div>
                     </div>
                     <button
                         class="flex items-center gap-2 bg-primary/10 hover:bg-primary/20 border border-primary/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-primary transition-all cursor-pointer"
@@ -173,11 +147,18 @@
                         <span>🔍 Filters</span>
                         <span class="text-xs transition-transform duration-300 collapse-icon" id="filterToggleIcon">▼</span>
                     </button>
+                    <button
+                        class="flex items-center gap-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-blue-500 transition-all cursor-pointer"
+                        onclick="toggleInputSection()"
+                    >
+                        <span>📋 Load</span>
+                        <span class="text-xs transition-transform duration-300 collapse-icon" id="loadToggleIcon">▼</span>
+                    </button>
                 </div>
 
                 <!-- Filters Section (Collapsible) -->
                 <div id="filtersSection" class="transition-all duration-300 overflow-hidden collapsed">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pt-3 border-t border-white/10 filter-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pt-3 border-t border-white/15 filter-grid">
                         <div>
                             <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">📺 Type</h3>
                             <div class="flex gap-2 flex-wrap filter-buttons" id="typeFilters"></div>
@@ -204,13 +185,35 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Load Collection Section (Collapsible) -->
+                <div id="inputSection" class="transition-all duration-300 overflow-hidden collapsed">
+                    <div class="pt-3 border-t border-white/15">
+                        <div class="mb-3">
+                            <label for="csvData" class="block mb-2 text-xs text-gray-300">Paste your watchlist data</label>
+                            <textarea
+                                id="csvData"
+                                placeholder="Paste your CSV data here..."
+                                class="w-full px-3 py-2.5 border border-white/10 bg-black/40 text-white rounded-lg text-xs font-mono min-h-[100px] transition-all duration-300 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 hover:border-white/20"
+                            ></textarea>
+                        </div>
+                        <div class="flex gap-2 flex-wrap">
+                            <button class="bg-gradient-to-r from-primary to-red-600 text-white px-4 py-2 border-none rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(233,69,96,0.5)]" onclick="loadData()">
+                                Load from Paste
+                            </button>
+                            <button class="bg-gradient-to-r from-gray-700 to-gray-800 text-white px-4 py-2 border-none rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]" onclick="loadFromGitHub()">
+                                🔄 Reload from GitHub
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-5 mt-8" id="cardsGrid"></div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 mt-8" id="cardsGrid"></div>
         </div>
 
-        <div class="hidden fixed z-[1000] left-0 top-0 w-full h-full bg-black/90 animate-fadeIn items-center justify-center p-5 modal" id="modal">
-            <div class="bg-gradient-to-br from-[#0a0a0a] to-[#1a0000] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative border-2 border-primary/50 shadow-2xl animate-slideUp flex flex-col md:flex-row modal-content">
+        <div class="hidden fixed z-[1000] left-0 top-0 w-full h-full bg-black/85 animate-fadeIn items-center justify-center p-5 modal" id="modal">
+            <div class="bg-gradient-to-br from-[#1a1a1a] to-[#2a0a0a] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative border-2 border-primary/50 shadow-2xl animate-slideUp flex flex-col md:flex-row modal-content">
                 <button class="absolute top-5 right-5 bg-black/70 border-2 border-primary text-white text-3xl w-12 h-12 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 z-10 hover:bg-primary hover:rotate-90 close-btn" onclick="closeModal()">×</button>
                 <img id="modalPoster" class="w-full md:w-[350px] md:min-w-[350px] h-auto min-h-full object-contain rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none bg-gradient-to-br from-primary/30 to-black/50 modal-poster hidden" alt="" />
                 <div class="p-8 flex-1 overflow-y-auto modal-body" id="modalBody"></div>
@@ -261,18 +264,18 @@
                     successEl.classList.add("hidden");
                     successEl.classList.remove("block");
                 }, 3000);
-
-                // Collapse input section after successful load
-                const inputSection = document.getElementById("inputSection");
-                setTimeout(() => {
-                    inputSection.classList.add("collapsed");
-                }, 1000);
             }
 
             function toggleInputSection() {
-                document
-                    .getElementById("inputSection")
-                    .classList.toggle("collapsed");
+                const inputSection = document.getElementById("inputSection");
+                const loadIcon = document.getElementById("loadToggleIcon");
+                inputSection.classList.toggle("collapsed");
+
+                if (inputSection.classList.contains("collapsed")) {
+                    loadIcon.style.transform = "rotate(0deg)";
+                } else {
+                    loadIcon.style.transform = "rotate(180deg)";
+                }
             }
 
             function toggleFilters() {
@@ -319,14 +322,7 @@
             });
 
             function showLoading(show) {
-                const loading = document.getElementById("loading");
-                if (show) {
-                    loading.classList.remove("hidden");
-                    loading.classList.add("block");
-                } else {
-                    loading.classList.add("hidden");
-                    loading.classList.remove("block");
-                }
+                // Loading toast removed - function kept for compatibility
             }
 
             async function fetchMoviePoster(
@@ -491,9 +487,6 @@
                 displayStats();
                 createFilters();
                 displayCards(filteredData);
-                const controls = document.getElementById("controls");
-                controls.classList.remove("hidden");
-                controls.classList.add("block");
                 showLoading(false);
             }
 
@@ -546,23 +539,23 @@
                 ).length;
 
                 statsEl.innerHTML = `
-                <div class="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center hover:border-primary/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
+                <div class="group relative bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 text-center hover:border-primary/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
                     <div class="text-xs uppercase tracking-wider text-gray-400 mb-2 font-semibold">📊 Total</div>
                     <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-red-400">${totalCount}</div>
                 </div>
-                <div class="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center hover:border-blue-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
+                <div class="group relative bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 text-center hover:border-blue-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
                     <div class="text-xs uppercase tracking-wider text-gray-400 mb-2 font-semibold">🎬 Films</div>
                     <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">${films}</div>
                 </div>
-                <div class="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center hover:border-cyan-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
+                <div class="group relative bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 text-center hover:border-cyan-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
                     <div class="text-xs uppercase tracking-wider text-gray-400 mb-2 font-semibold">📺 Series</div>
                     <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">${series}</div>
                 </div>
-                <div class="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center hover:border-yellow-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
+                <div class="group relative bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 text-center hover:border-yellow-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
                     <div class="text-xs uppercase tracking-wider text-gray-400 mb-2 font-semibold">⭐ Rating</div>
                     <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">${avgRating}</div>
                 </div>
-                <div class="group relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center hover:border-purple-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
+                <div class="group relative bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 text-center hover:border-purple-500/50 transition-all duration-300 hover:scale-105 min-w-[120px]">
                     <div class="text-xs uppercase tracking-wider text-gray-400 mb-2 font-semibold">👥 Bogdan</div>
                     <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">${withBogdan}</div>
                 </div>
@@ -674,6 +667,7 @@
                 [
                     "All",
                     "Watched w/ Bogdan",
+                    "Not w/ Bogdan",
                     "Physical Copy",
                     "High Rewatch",
                 ].forEach((special) => {
@@ -758,6 +752,11 @@
                         )
                             return false;
                         if (
+                            activeFilters.special === "not w/ bogdan" &&
+                            row["Bogdan"] === "Yes"
+                        )
+                            return false;
+                        if (
                             activeFilters.special === "physical copy" &&
                             !row["Physical Format"]
                         )
@@ -789,11 +788,38 @@
                 displayCards(filtered);
             }
 
-            function sortCards() {
-                const sortBy = document.getElementById("sortSelect").value;
+            let currentSort = "name";
 
+            function toggleSortDropdown() {
+                const dropdown = document.getElementById("sortDropdown");
+                dropdown.classList.toggle("hidden");
+            }
+
+            function selectSort(sortBy, displayText, element) {
+                currentSort = sortBy;
+                document.getElementById("sortButtonText").textContent = displayText;
+
+                // Update active state
+                const dropdown = document.getElementById("sortDropdown");
+                dropdown.querySelectorAll("div[data-active]").forEach(opt => {
+                    opt.removeAttribute("data-active");
+                    opt.classList.remove("bg-yellow-500/20", "text-yellow-500");
+                    opt.classList.add("text-white");
+                });
+                element.setAttribute("data-active", "true");
+                element.classList.add("bg-yellow-500/20", "text-yellow-500");
+                element.classList.remove("text-white");
+
+                // Close dropdown
+                dropdown.classList.add("hidden");
+
+                // Sort the cards
+                sortCards();
+            }
+
+            function sortCards() {
                 filteredData.sort((a, b) => {
-                    switch (sortBy) {
+                    switch (currentSort) {
                         case "name":
                             return a["Name"].localeCompare(b["Name"]);
                         case "rating-desc":
@@ -827,6 +853,15 @@
                 filterCards();
             }
 
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function(event) {
+                const dropdown = document.getElementById("sortDropdown");
+                const button = document.getElementById("sortButton");
+                if (dropdown && button && !button.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+
             async function displayCards(data) {
                 const grid = document.getElementById("cardsGrid");
                 grid.innerHTML = "";
@@ -839,7 +874,7 @@
 
                 for (const [index, row] of data.entries()) {
                     const card = document.createElement("div");
-                    card.className = "bg-white/8 backdrop-blur-md rounded-3xl p-0 border border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-300 animate-fadeInUp relative overflow-hidden cursor-pointer hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(233,69,96,0.4)] hover:border-primary card";
+                    card.className = "bg-white/12 backdrop-blur-md rounded-3xl p-0 border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-300 animate-fadeInUp relative overflow-hidden cursor-pointer hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(233,69,96,0.4)] hover:border-primary card";
                     card.style.animationDelay = `${index * 0.03}s`;
                     card.onclick = () => openModal(row);
 
