@@ -10,37 +10,55 @@
                 theme: {
                     extend: {
                         colors: {
-                            'primary': '#e94560',
-                            'primary-dark': '#8b0000',
+                            primary: "#e94560",
+                            "primary-dark": "#8b0000",
                         },
                         animation: {
-                            'fadeInDown': 'fadeInDown 0.6s ease',
-                            'fadeInUp': 'fadeInUp 0.6s ease',
-                            'fadeIn': 'fadeIn 0.3s ease',
-                            'slideUp': 'slideUp 0.3s ease',
-                            'pulse-slow': 'pulse 1.5s ease-in-out infinite',
+                            fadeInDown: "fadeInDown 0.6s ease",
+                            fadeInUp: "fadeInUp 0.6s ease",
+                            fadeIn: "fadeIn 0.3s ease",
+                            slideUp: "slideUp 0.3s ease",
+                            "pulse-slow": "pulse 1.5s ease-in-out infinite",
                         },
                         keyframes: {
                             fadeInDown: {
-                                '0%': { opacity: '0', transform: 'translateY(-30px)' },
-                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateY(-30px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateY(0)",
+                                },
                             },
                             fadeInUp: {
-                                '0%': { opacity: '0', transform: 'translateY(30px)' },
-                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateY(30px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateY(0)",
+                                },
                             },
                             fadeIn: {
-                                '0%': { opacity: '0' },
-                                '100%': { opacity: '1' },
+                                "0%": { opacity: "0" },
+                                "100%": { opacity: "1" },
                             },
                             slideUp: {
-                                '0%': { opacity: '0', transform: 'translateY(50px)' },
-                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                                "0%": {
+                                    opacity: "0",
+                                    transform: "translateY(50px)",
+                                },
+                                "100%": {
+                                    opacity: "1",
+                                    transform: "translateY(0)",
+                                },
                             },
-                        }
-                    }
-                }
-            }
+                        },
+                    },
+                },
+            };
         </script>
         <style>
             /* Custom styles for collapse functionality and special effects */
@@ -63,7 +81,6 @@
             .modal-poster.hidden {
                 display: none;
             }
-
 
             /* Custom scrollbar for genre filters */
             #genreFilters::-webkit-scrollbar {
@@ -93,39 +110,190 @@
             }
         </style>
     </head>
-    <body class="min-h-screen p-5 text-white bg-gradient-to-br from-[#1a0808] via-[#2a0a0a] to-[#0f0f0f] font-sans">
+    <body
+        class="min-h-screen p-5 text-white bg-gradient-to-br from-[#1a0808] via-[#2a0a0a] to-[#0f0f0f] font-sans"
+    >
         <div class="container mx-auto max-w-full">
             <!-- Hero Section -->
             <div class="text-center mb-12 animate-fadeInDown">
                 <h1 class="text-6xl md:text-7xl mb-3 font-black">
                     <span class="text-6xl md:text-7xl">🎬</span>
-                    <span class="bg-gradient-to-r from-primary via-red-400 to-primary bg-clip-text text-transparent" style="text-shadow: 0 0 40px rgba(233, 69, 96, 0.3)">Movie & Series Collection</span>
+                    <span
+                        class="bg-gradient-to-r from-primary via-red-400 to-primary bg-clip-text text-transparent"
+                        style="text-shadow: 0 0 40px rgba(233, 69, 96, 0.3)"
+                        >Movie & Series Collection</span
+                    >
                 </h1>
             </div>
 
             <!-- Stats Section -->
-            <div class="flex gap-4 justify-center flex-wrap mb-10 max-w-6xl mx-auto" id="stats"></div>
+            <div
+                class="flex gap-4 justify-center flex-wrap mb-4 max-w-6xl mx-auto"
+                id="stats"
+            ></div>
 
-            <!-- Notification toasts -->
-            <div class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-red-500/10 border border-red-500/30 text-red-400 text-sm" id="error"></div>
-            <div class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-green-500/10 border border-green-500/30 text-green-400 text-sm" id="success"></div>
-
-            <!-- Loading overlay -->
-            <div class="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm hidden items-center justify-center" id="loadingOverlay">
-                <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8 max-w-md text-center shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-                    <div class="mb-4 text-6xl animate-pulse-slow">📡</div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Fetching Data</h3>
-                    <p class="text-gray-400 text-sm mb-4">Loading your collection from Google Sheets via CORS proxy...</p>
-                    <div class="flex gap-2 justify-center">
-                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0s"></div>
-                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+            <!-- CeX Collection Value -->
+            <div
+                class="flex gap-4 justify-center flex-wrap mb-10 max-w-6xl mx-auto"
+                id="cexValueSection"
+            >
+                <div
+                    class="bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-md px-6 py-4 rounded-xl border border-white/15 flex items-center gap-4"
+                >
+                    <button
+                        id="calcCexBtn"
+                        onclick="calculateCollectionValue()"
+                        class="flex items-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 transition-all cursor-pointer hover:scale-105"
+                    >
+                        <span id="calcCexIcon">💷</span>
+                        <span>Calculate CeX Value</span>
+                    </button>
+                    <div id="cexTotals" class="hidden flex gap-4 items-center">
+                        <div class="text-center">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Cost
+                            </div>
+                            <div
+                                class="text-xl font-black text-white"
+                                id="totalSell"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Cash
+                            </div>
+                            <div
+                                class="text-xl font-black text-emerald-400"
+                                id="totalCash"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Voucher
+                            </div>
+                            <div
+                                class="text-xl font-black text-yellow-400"
+                                id="totalVoucher"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center border-l border-white/20 pl-4">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Paid (CeX)
+                            </div>
+                            <div
+                                class="text-xl font-black text-primary"
+                                id="totalPaidCex"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Paid (Other)
+                            </div>
+                            <div
+                                class="text-xl font-black text-cyan-400"
+                                id="totalPaidOther"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Total
+                            </div>
+                            <div
+                                class="text-xl font-black text-amber-400"
+                                id="totalPaidAll"
+                            >
+                                -
+                            </div>
+                        </div>
+                        <div class="text-center border-l border-white/20 pl-4">
+                            <div
+                                class="text-[10px] uppercase tracking-wider text-gray-400"
+                            >
+                                Items
+                            </div>
+                            <div
+                                class="text-xl font-black text-white"
+                                id="totalCexItems"
+                            >
+                                -
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mt-4">This may take a few seconds...</p>
                 </div>
             </div>
 
-            <div class="relative z-50 bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-xl rounded-2xl border border-white/15 mb-8 animate-fadeInUp controls p-4" id="controls">
+            <!-- Notification toasts -->
+            <div
+                class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-red-500/10 border border-red-500/30 text-red-400 text-sm"
+                id="error"
+            ></div>
+            <div
+                class="fixed top-5 right-5 z-50 p-4 rounded-xl max-w-md hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] bg-green-500/10 border border-green-500/30 text-green-400 text-sm"
+                id="success"
+            ></div>
+
+            <!-- Loading overlay -->
+            <div
+                class="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm hidden items-center justify-center"
+                id="loadingOverlay"
+            >
+                <div
+                    class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8 max-w-md text-center shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                >
+                    <div class="mb-4 text-6xl animate-pulse-slow">📡</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        Fetching Data
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">
+                        Loading your collection from Google Sheets via CORS
+                        proxy...
+                    </p>
+                    <div class="flex gap-2 justify-center">
+                        <div
+                            class="w-3 h-3 bg-primary rounded-full animate-bounce"
+                            style="animation-delay: 0s"
+                        ></div>
+                        <div
+                            class="w-3 h-3 bg-primary rounded-full animate-bounce"
+                            style="animation-delay: 0.2s"
+                        ></div>
+                        <div
+                            class="w-3 h-3 bg-primary rounded-full animate-bounce"
+                            style="animation-delay: 0.4s"
+                        ></div>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-4">
+                        This may take a few seconds...
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="relative z-50 bg-gradient-to-br from-white/8 to-white/12 backdrop-blur-xl rounded-2xl border border-white/15 mb-8 animate-fadeInUp controls p-4"
+                id="controls"
+            >
                 <!-- Search and Sort Row -->
                 <div class="flex gap-3 items-center mb-4 flex-wrap">
                     <div class="flex-1 min-w-[300px]">
@@ -155,13 +323,79 @@
                             <span id="sortButtonText">📝 Name (A-Z)</span>
                             <span class="text-xs">▼</span>
                         </button>
-                        <div id="sortDropdown" class="hidden absolute top-full right-0 mt-2 w-full bg-gray-900 border border-yellow-500/30 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden z-[1000]">
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-yellow-500 bg-yellow-500/20 hover:bg-yellow-500/30 transition-all whitespace-nowrap" data-active="true" onclick="selectSort('name', '📝 Name (A-Z)', this)">📝 Name (A-Z)</div>
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('rating-desc', '⭐ Rating (High to Low)', this)">⭐ Rating (High to Low)</div>
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('rating-asc', '⭐ Rating (Low to High)', this)">⭐ Rating (Low to High)</div>
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('date-latest', '📅 Latest Watch', this)">📅 Latest Watch</div>
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('date-first', '📅 First Watch', this)">📅 First Watch</div>
-                            <div class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap" onclick="selectSort('watch-count', '🔢 Watch Count', this)">🔢 Watch Count</div>
+                        <div
+                            id="sortDropdown"
+                            class="hidden absolute top-full right-0 mt-2 w-full bg-gray-900 border border-yellow-500/30 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden z-[1000]"
+                        >
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-yellow-500 bg-yellow-500/20 hover:bg-yellow-500/30 transition-all whitespace-nowrap"
+                                data-active="true"
+                                onclick="
+                                    selectSort('name', '📝 Name (A-Z)', this)
+                                "
+                            >
+                                📝 Name (A-Z)
+                            </div>
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap"
+                                onclick="
+                                    selectSort(
+                                        'rating-desc',
+                                        '⭐ Rating (High to Low)',
+                                        this,
+                                    )
+                                "
+                            >
+                                ⭐ Rating (High to Low)
+                            </div>
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap"
+                                onclick="
+                                    selectSort(
+                                        'rating-asc',
+                                        '⭐ Rating (Low to High)',
+                                        this,
+                                    )
+                                "
+                            >
+                                ⭐ Rating (Low to High)
+                            </div>
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap"
+                                onclick="
+                                    selectSort(
+                                        'date-latest',
+                                        '📅 Latest Watch',
+                                        this,
+                                    )
+                                "
+                            >
+                                📅 Latest Watch
+                            </div>
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap"
+                                onclick="
+                                    selectSort(
+                                        'date-first',
+                                        '📅 First Watch',
+                                        this,
+                                    )
+                                "
+                            >
+                                📅 First Watch
+                            </div>
+                            <div
+                                class="py-3 px-4 cursor-pointer text-sm font-semibold text-white hover:bg-yellow-500/20 transition-all whitespace-nowrap"
+                                onclick="
+                                    selectSort(
+                                        'watch-count',
+                                        '🔢 Watch Count',
+                                        this,
+                                    )
+                                "
+                            >
+                                🔢 Watch Count
+                            </div>
                         </div>
                     </div>
                     <button
@@ -169,52 +403,107 @@
                         onclick="toggleFilters()"
                     >
                         <span>🔍 Filters</span>
-                        <span class="text-xs transition-transform duration-300 collapse-icon" id="filterToggleIcon">▼</span>
+                        <span
+                            class="text-xs transition-transform duration-300 collapse-icon"
+                            id="filterToggleIcon"
+                            >▼</span
+                        >
                     </button>
                     <button
                         class="flex items-center gap-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 px-4 py-2.5 rounded-lg text-sm font-semibold text-blue-500 transition-all cursor-pointer"
                         onclick="toggleInputSection()"
                     >
                         <span>📋 Load</span>
-                        <span class="text-xs transition-transform duration-300 collapse-icon" id="loadToggleIcon">▼</span>
+                        <span
+                            class="text-xs transition-transform duration-300 collapse-icon"
+                            id="loadToggleIcon"
+                            >▼</span
+                        >
                     </button>
                 </div>
 
                 <!-- Filters Section (Collapsible) -->
-                <div id="filtersSection" class="transition-all duration-300 overflow-hidden collapsed">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pt-3 border-t border-white/15 filter-grid">
+                <div
+                    id="filtersSection"
+                    class="transition-all duration-300 overflow-hidden collapsed"
+                >
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pt-3 border-t border-white/15 filter-grid"
+                    >
                         <div>
-                            <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">📺 Type</h3>
-                            <div class="flex gap-2 flex-wrap filter-buttons" id="typeFilters"></div>
+                            <h3
+                                class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                📺 Type
+                            </h3>
+                            <div
+                                class="flex gap-2 flex-wrap filter-buttons"
+                                id="typeFilters"
+                            ></div>
                         </div>
 
                         <div>
-                            <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">🎭 Genre</h3>
-                            <div class="flex gap-2 flex-wrap max-h-[200px] overflow-y-auto pr-1 filter-buttons" id="genreFilters"></div>
+                            <h3
+                                class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                🎭 Genre
+                            </h3>
+                            <div
+                                class="flex gap-2 flex-wrap max-h-[200px] overflow-y-auto pr-1 filter-buttons"
+                                id="genreFilters"
+                            ></div>
                         </div>
 
                         <div>
-                            <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">⭐ Rating</h3>
-                            <div class="flex gap-2 flex-wrap filter-buttons" id="ratingFilters"></div>
+                            <h3
+                                class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                ⭐ Rating
+                            </h3>
+                            <div
+                                class="flex gap-2 flex-wrap filter-buttons"
+                                id="ratingFilters"
+                            ></div>
                         </div>
 
                         <div>
-                            <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">💿 Physical Format</h3>
-                            <div class="flex gap-2 flex-wrap filter-buttons" id="physicalFormatFilters"></div>
+                            <h3
+                                class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                💿 Physical Format
+                            </h3>
+                            <div
+                                class="flex gap-2 flex-wrap filter-buttons"
+                                id="physicalFormatFilters"
+                            ></div>
                         </div>
 
                         <div>
-                            <h3 class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold">🎥 Special</h3>
-                            <div class="flex gap-2 flex-wrap filter-buttons" id="specialFilters"></div>
+                            <h3
+                                class="mb-2 text-xs uppercase tracking-wider text-gray-400 font-semibold"
+                            >
+                                🎥 Special
+                            </h3>
+                            <div
+                                class="flex gap-2 flex-wrap filter-buttons"
+                                id="specialFilters"
+                            ></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Load Collection Section (Collapsible) -->
-                <div id="inputSection" class="transition-all duration-300 overflow-hidden collapsed">
+                <div
+                    id="inputSection"
+                    class="transition-all duration-300 overflow-hidden collapsed"
+                >
                     <div class="pt-3 border-t border-white/15">
                         <div class="mb-3">
-                            <label for="csvData" class="block mb-2 text-xs text-gray-300">Paste your watchlist data</label>
+                            <label
+                                for="csvData"
+                                class="block mb-2 text-xs text-gray-300"
+                                >Paste your watchlist data</label
+                            >
                             <textarea
                                 id="csvData"
                                 placeholder="Paste your CSV data here..."
@@ -222,7 +511,10 @@
                             ></textarea>
                         </div>
                         <div class="flex gap-2 flex-wrap">
-                            <button class="bg-gradient-to-r from-primary to-red-600 text-white px-4 py-2 border-none rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(233,69,96,0.5)]" onclick="loadData()">
+                            <button
+                                class="bg-gradient-to-r from-primary to-red-600 text-white px-4 py-2 border-none rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_20px_rgba(233,69,96,0.5)]"
+                                onclick="loadData()"
+                            >
                                 Load from Paste
                             </button>
                         </div>
@@ -230,14 +522,34 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 mt-8" id="cardsGrid"></div>
+            <div
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3 mt-8"
+                id="cardsGrid"
+            ></div>
         </div>
 
-        <div class="hidden fixed z-[1000] left-0 top-0 w-full h-full bg-black/85 animate-fadeIn items-center justify-center p-5 modal" id="modal">
-            <div class="bg-gradient-to-br from-[#1a1a1a] to-[#2a0a0a] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative border-2 border-primary/50 shadow-2xl animate-slideUp flex flex-col md:flex-row modal-content">
-                <button class="absolute top-5 right-5 bg-black/70 border-2 border-primary text-white text-3xl w-12 h-12 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 z-10 hover:bg-primary hover:rotate-90 close-btn" onclick="closeModal()">×</button>
-                <img id="modalPoster" class="w-full md:w-[350px] md:min-w-[350px] h-auto min-h-full object-contain rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none bg-gradient-to-br from-primary/30 to-black/50 modal-poster hidden" alt="" />
-                <div class="p-8 flex-1 overflow-y-auto modal-body" id="modalBody"></div>
+        <div
+            class="hidden fixed z-[1000] left-0 top-0 w-full h-full bg-black/85 animate-fadeIn items-center justify-center p-5 modal"
+            id="modal"
+        >
+            <div
+                class="bg-gradient-to-br from-[#1a1a1a] to-[#2a0a0a] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative border-2 border-primary/50 shadow-2xl animate-slideUp flex flex-col md:flex-row modal-content"
+            >
+                <button
+                    class="absolute top-5 right-5 bg-black/70 border-2 border-primary text-white text-3xl w-12 h-12 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 z-10 hover:bg-primary hover:rotate-90 close-btn"
+                    onclick="closeModal()"
+                >
+                    ×
+                </button>
+                <img
+                    id="modalPoster"
+                    class="w-full md:w-[350px] md:min-w-[350px] h-auto min-h-full object-contain rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none bg-gradient-to-br from-primary/30 to-black/50 modal-poster hidden"
+                    alt=""
+                />
+                <div
+                    class="p-8 flex-1 overflow-y-auto modal-body"
+                    id="modalBody"
+                ></div>
             </div>
         </div>
 
@@ -270,6 +582,147 @@
                 special: "all",
             };
             let posterCache = {};
+            let cexCache = {};
+
+            function extractCexSku(url) {
+                if (!url) return null;
+                const match = url.match(/[?&]id=([^&]+)/);
+                return match ? match[1] : null;
+            }
+
+            async function fetchCexDetails(sku) {
+                if (!sku) return null;
+                if (cexCache[sku]) return cexCache[sku];
+                try {
+                    const resp = await fetch(
+                        `https://cors.eu.org/https://wss2.cex.uk.webuy.io/v3/boxes/${sku}/detail`,
+                    );
+                    if (!resp.ok) return null;
+                    const json = await resp.json();
+                    const details =
+                        json?.response?.data?.boxDetails?.[0] ?? null;
+                    if (details) cexCache[sku] = details;
+                    return details;
+                } catch (e) {
+                    console.error("Error fetching CeX details for SKU", sku, e);
+                    return null;
+                }
+            }
+
+            function parseCexLinks(linkStr) {
+                if (!linkStr) return [];
+                const links = [];
+                for (const part of linkStr.split(",")) {
+                    const trimmed = part.trim();
+                    if (trimmed.startsWith("http")) links.push(trimmed);
+                }
+                return links;
+            }
+
+            async function calculateCollectionValue() {
+                const btn = document.getElementById("calcCexBtn");
+                const totalsEl = document.getElementById("cexTotals");
+                const iconEl = document.getElementById("calcCexIcon");
+
+                // Phase 1: Scan all rows and collect data
+                const uniqueSkus = new Set(); // all CeX SKUs to fetch
+                let totalPaidCex = 0;
+                let totalPaidOther = 0;
+                let itemCount = 0;
+
+                for (const row of allData) {
+                    const links = parseCexLinks(row["Cex Link"]);
+                    const priceStr = (row["Price (£)"] || "").replace(/[£$€,]/g, "").trim();
+                    const paidPrice = parseFloat(priceStr) || 0;
+                    const hasAnyValue =
+                        links.length > 0 ||
+                        paidPrice > 0;
+                    if (!hasAnyValue) continue;
+
+                    itemCount++;
+
+                    // Split by source: has CeX link = CeX, otherwise = Other
+                    if (links.length > 0) {
+                        totalPaidCex += paidPrice;
+                    } else {
+                        totalPaidOther += paidPrice;
+                    }
+
+                    // Collect SKUs for CeX value lookup
+                    for (const link of links) {
+                        const sku = extractCexSku(link);
+                        if (sku) uniqueSkus.add(sku);
+                    }
+                }
+
+                if (itemCount === 0) {
+                    showError(
+                        "No CeX links, prices, or manual values found in your collection",
+                    );
+                    return;
+                }
+
+                const skuList = [...uniqueSkus];
+
+                // Disable button and show loading
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                iconEl.style.display = "inline-block";
+                iconEl.style.animation = "spin 1s linear infinite";
+                if (!document.getElementById("spinAnimation")) {
+                    const style = document.createElement("style");
+                    style.id = "spinAnimation";
+                    style.textContent =
+                        "@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }";
+                    document.head.appendChild(style);
+                }
+
+                totalsEl.classList.remove("hidden");
+                totalsEl.classList.add("flex");
+                document.getElementById("totalSell").textContent = "...";
+                document.getElementById("totalCash").textContent = "...";
+                document.getElementById("totalVoucher").textContent = "...";
+                const totalPaidAll = totalPaidCex + totalPaidOther;
+                document.getElementById("totalPaidCex").textContent =
+                    totalPaidCex > 0 ? `\u00a3${totalPaidCex.toFixed(2)}` : "-";
+                document.getElementById("totalPaidOther").textContent =
+                    totalPaidOther > 0 ? `\u00a3${totalPaidOther.toFixed(2)}` : "-";
+                document.getElementById("totalPaidAll").textContent =
+                    totalPaidAll > 0 ? `\u00a3${totalPaidAll.toFixed(2)}` : "-";
+                document.getElementById("totalCexItems").textContent =
+                    skuList.length > 0 ? `0/${skuList.length}` : `${itemCount}`;
+
+                // Phase 2: Fetch all unique CeX SKUs
+                let totalSell = 0;
+                let totalCash = 0;
+                let totalVoucher = 0;
+                let fetched = 0;
+
+                for (const sku of skuList) {
+                    const details = await fetchCexDetails(sku);
+                    if (details) {
+                        totalSell += details.sellPrice || 0;
+                        totalCash += details.cashPrice || 0;
+                        totalVoucher += details.exchangePrice || 0;
+                    }
+                    fetched++;
+                    document.getElementById("totalCexItems").textContent =
+                        `${fetched}/${skuList.length}`;
+                    document.getElementById("totalSell").textContent =
+                        `\u00a3${totalSell.toFixed(2)}`;
+                    document.getElementById("totalCash").textContent =
+                        `\u00a3${totalCash.toFixed(2)}`;
+                    document.getElementById("totalVoucher").textContent =
+                        `\u00a3${totalVoucher.toFixed(2)}`;
+                }
+
+                // Done
+                iconEl.style.animation = "";
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                document.getElementById("totalCexItems").textContent =
+                    `${itemCount}`;
+            }
 
             function showError(message) {
                 const errorEl = document.getElementById("error");
@@ -314,7 +767,10 @@
             function setCachedData(data) {
                 try {
                     localStorage.setItem(CACHE_KEY, data);
-                    localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+                    localStorage.setItem(
+                        CACHE_TIMESTAMP_KEY,
+                        Date.now().toString(),
+                    );
                 } catch (error) {
                     console.error("Error writing cache:", error);
                 }
@@ -342,7 +798,8 @@
             }
 
             function toggleFilters() {
-                const filtersSection = document.getElementById("filtersSection");
+                const filtersSection =
+                    document.getElementById("filtersSection");
                 const filterIcon = document.getElementById("filterToggleIcon");
                 filtersSection.classList.toggle("collapsed");
 
@@ -371,7 +828,11 @@
                     if (cachedData) {
                         console.log("Loading from cache...");
                         parseCSV(cachedData);
-                        showSuccess("✅ Collection loaded from cache! Found " + allData.length + " titles.");
+                        showSuccess(
+                            "✅ Collection loaded from cache! Found " +
+                                allData.length +
+                                " titles.",
+                        );
                         return true;
                     }
                 }
@@ -381,11 +842,14 @@
 
                 try {
                     const corsProxy = "https://api.allorigins.win/raw?url=";
-                    const url = corsProxy + encodeURIComponent(GOOGLE_SHEETS_URL);
+                    const url =
+                        corsProxy + encodeURIComponent(GOOGLE_SHEETS_URL);
 
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error("Failed to load CSV from Google Sheets");
+                        throw new Error(
+                            "Failed to load CSV from Google Sheets",
+                        );
                     }
 
                     const csvText = await response.text();
@@ -394,10 +858,16 @@
                     setCachedData(csvText);
 
                     parseCSV(csvText);
-                    showSuccess("✅ Collection refreshed from Google Sheets! Found " + allData.length + " titles.");
+                    showSuccess(
+                        "✅ Collection refreshed from Google Sheets! Found " +
+                            allData.length +
+                            " titles.",
+                    );
                     return true;
                 } catch (error) {
-                    showError("Error loading from Google Sheets: " + error.message);
+                    showError(
+                        "Error loading from Google Sheets: " + error.message,
+                    );
                     return false;
                 } finally {
                     showLoading(false);
@@ -418,7 +888,8 @@
                 if (!document.getElementById("spinAnimation")) {
                     const style = document.createElement("style");
                     style.id = "spinAnimation";
-                    style.textContent = "@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }";
+                    style.textContent =
+                        "@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }";
                     document.head.appendChild(style);
                 }
 
@@ -630,7 +1101,6 @@
                 return values;
             }
 
-
             function displayStats() {
                 const statsEl = document.getElementById("stats");
                 const totalCount = allData.length;
@@ -681,7 +1151,10 @@
                 ["All", "Film", "Series"].forEach((type) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (type === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" +
+                        (type === "All"
+                            ? " !bg-primary scale-105"
+                            : " hover:bg-primary hover:scale-105");
                     btn.textContent = type;
                     btn.onclick = () => setFilter("type", type.toLowerCase());
                     typeContainer.appendChild(btn);
@@ -693,20 +1166,19 @@
                 const genres = new Map(); // Use Map to track normalized -> display name
                 allData.forEach((row) => {
                     if (row["Genre"]) {
-                        row["Genre"]
-                            .split("/")
-                            .forEach((g) => {
-                                const trimmed = g.trim();
-                                const normalized = trimmed.toLowerCase();
-                                // Keep the first occurrence's capitalization
-                                if (!genres.has(normalized)) {
-                                    genres.set(normalized, trimmed);
-                                }
-                            });
+                        row["Genre"].split("/").forEach((g) => {
+                            const trimmed = g.trim();
+                            const normalized = trimmed.toLowerCase();
+                            // Keep the first occurrence's capitalization
+                            if (!genres.has(normalized)) {
+                                genres.set(normalized, trimmed);
+                            }
+                        });
                     }
                 });
                 const allGenreBtn = document.createElement("button");
-                allGenreBtn.className = "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
+                allGenreBtn.className =
+                    "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
                 allGenreBtn.textContent = "All";
                 allGenreBtn.onclick = () => setFilter("genre", "all");
                 genreContainer.appendChild(allGenreBtn);
@@ -715,7 +1187,8 @@
                     .sort((a, b) => a[1].localeCompare(b[1]))
                     .forEach(([normalized, displayName]) => {
                         const btn = document.createElement("button");
-                        btn.className = "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
+                        btn.className =
+                            "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
                         btn.textContent = displayName;
                         btn.onclick = () => setFilter("genre", normalized);
                         genreContainer.appendChild(btn);
@@ -728,7 +1201,10 @@
                 ["All", "10", "9-10", "8-9", "7-8", "<7"].forEach((rating) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (rating === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" +
+                        (rating === "All"
+                            ? " !bg-primary scale-105"
+                            : " hover:bg-primary hover:scale-105");
                     btn.textContent = rating === "All" ? "All" : rating;
                     btn.onclick = () =>
                         setFilter("rating", rating.toLowerCase());
@@ -736,15 +1212,20 @@
                 });
 
                 // Physical Format filters
-                const formatContainer = document.getElementById("physicalFormatFilters");
+                const formatContainer = document.getElementById(
+                    "physicalFormatFilters",
+                );
                 formatContainer.innerHTML = "";
                 const formats = new Map();
                 allData.forEach((row) => {
                     if (row["Physical Format"]) {
-                        const formatStr = row["Physical Format"].replace(/^"+|"+$/g, '').trim(); // Remove quotes
-                        if (formatStr && !formatStr.match(/^\d{2}\/\d{4}$/)) { // Skip date entries
+                        const formatStr = row["Physical Format"]
+                            .replace(/^"+|"+$/g, "")
+                            .trim(); // Remove quotes
+                        if (formatStr && !formatStr.match(/^\d{2}\/\d{4}$/)) {
+                            // Skip date entries
                             // Split by comma like genres are split by slash
-                            formatStr.split(',').forEach((f) => {
+                            formatStr.split(",").forEach((f) => {
                                 const trimmed = f.trim();
                                 if (trimmed) {
                                     const normalized = trimmed.toLowerCase();
@@ -757,7 +1238,8 @@
                     }
                 });
                 const allFormatBtn = document.createElement("button");
-                allFormatBtn.className = "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
+                allFormatBtn.className =
+                    "px-4 py-2 border-2 border-primary !bg-primary scale-105 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs";
                 allFormatBtn.textContent = "All";
                 allFormatBtn.onclick = () => setFilter("physicalFormat", "all");
                 formatContainer.appendChild(allFormatBtn);
@@ -766,9 +1248,11 @@
                     .sort((a, b) => a[1].localeCompare(b[1]))
                     .forEach(([normalized, displayName]) => {
                         const btn = document.createElement("button");
-                        btn.className = "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
+                        btn.className =
+                            "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs hover:bg-primary hover:scale-105";
                         btn.textContent = displayName;
-                        btn.onclick = () => setFilter("physicalFormat", normalized);
+                        btn.onclick = () =>
+                            setFilter("physicalFormat", normalized);
                         formatContainer.appendChild(btn);
                     });
 
@@ -785,7 +1269,10 @@
                 ].forEach((special) => {
                     const btn = document.createElement("button");
                     btn.className =
-                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" + (special === "All" ? " !bg-primary scale-105" : " hover:bg-primary hover:scale-105");
+                        "px-4 py-2 border-2 border-primary bg-black/30 text-white rounded-full cursor-pointer transition-all duration-300 font-semibold text-xs" +
+                        (special === "All"
+                            ? " !bg-primary scale-105"
+                            : " hover:bg-primary hover:scale-105");
                     btn.textContent = special;
                     btn.onclick = () =>
                         setFilter("special", special.toLowerCase());
@@ -851,8 +1338,13 @@
                         if (!row["Physical Format"]) {
                             return false;
                         }
-                        const rowFormats = row["Physical Format"].replace(/^"+|"+$/g, '').trim().toLowerCase();
-                        if (!rowFormats.includes(activeFilters.physicalFormat)) {
+                        const rowFormats = row["Physical Format"]
+                            .replace(/^"+|"+$/g, "")
+                            .trim()
+                            .toLowerCase();
+                        if (
+                            !rowFormats.includes(activeFilters.physicalFormat)
+                        ) {
                             return false;
                         }
                     }
@@ -909,11 +1401,12 @@
 
             function selectSort(sortBy, displayText, element) {
                 currentSort = sortBy;
-                document.getElementById("sortButtonText").textContent = displayText;
+                document.getElementById("sortButtonText").textContent =
+                    displayText;
 
                 // Update active state
                 const dropdown = document.getElementById("sortDropdown");
-                dropdown.querySelectorAll("div[data-active]").forEach(opt => {
+                dropdown.querySelectorAll("div[data-active]").forEach((opt) => {
                     opt.removeAttribute("data-active");
                     opt.classList.remove("bg-yellow-500/20", "text-yellow-500");
                     opt.classList.add("text-white");
@@ -966,10 +1459,15 @@
             }
 
             // Close dropdown when clicking outside
-            document.addEventListener("click", function(event) {
+            document.addEventListener("click", function (event) {
                 const dropdown = document.getElementById("sortDropdown");
                 const button = document.getElementById("sortButton");
-                if (dropdown && button && !button.contains(event.target) && !dropdown.contains(event.target)) {
+                if (
+                    dropdown &&
+                    button &&
+                    !button.contains(event.target) &&
+                    !dropdown.contains(event.target)
+                ) {
                     dropdown.classList.add("hidden");
                 }
             });
@@ -986,12 +1484,14 @@
 
                 for (const [index, row] of data.entries()) {
                     const card = document.createElement("div");
-                    card.className = "bg-white/12 backdrop-blur-md rounded-3xl p-0 border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-300 animate-fadeInUp relative overflow-hidden cursor-pointer hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(233,69,96,0.4)] hover:border-primary card";
+                    card.className =
+                        "bg-white/12 backdrop-blur-md rounded-3xl p-0 border border-white/20 shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-all duration-300 animate-fadeInUp relative overflow-hidden cursor-pointer hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(233,69,96,0.4)] hover:border-primary card";
                     card.style.animationDelay = `${index * 0.03}s`;
                     card.onclick = () => openModal(row);
 
                     const posterDiv = document.createElement("div");
-                    posterDiv.className = "w-full h-[280px] bg-gradient-to-br from-primary/20 to-black/40 flex items-center justify-center text-3xl animate-pulse-slow";
+                    posterDiv.className =
+                        "w-full h-[280px] bg-gradient-to-br from-primary/20 to-black/40 flex items-center justify-center text-3xl animate-pulse-slow";
                     posterDiv.textContent = "🎬";
 
                     const rating = row["Rating ?/10"];
@@ -1005,14 +1505,19 @@
                     const isGoldRating = ratingValue === 11;
 
                     const ratingBadgeClass = isGoldRating
-                        ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]'
-                        : 'bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]';
+                        ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]"
+                        : "bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]";
 
-                    const badgeFilm = 'bg-blue-500/30 border border-blue-500 text-blue-500';
-                    const badgeSeries = 'bg-cyan-400/30 border border-cyan-400 text-cyan-400';
-                    const badgeBogdan = 'bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold';
-                    const badgePhysical = 'bg-orange-500/30 border border-orange-500 text-orange-500';
-                    const badgeRewatch = 'bg-green-500/30 border border-green-500 text-green-500';
+                    const badgeFilm =
+                        "bg-blue-500/30 border border-blue-500 text-blue-500";
+                    const badgeSeries =
+                        "bg-cyan-400/30 border border-cyan-400 text-cyan-400";
+                    const badgeBogdan =
+                        "bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold";
+                    const badgePhysical =
+                        "bg-orange-500/30 border border-orange-500 text-orange-500";
+                    const badgeRewatch =
+                        "bg-green-500/30 border border-green-500 text-green-500";
 
                     let html = `
                     <div class="p-4">
@@ -1021,7 +1526,7 @@
                             ${rating && rating !== "?" ? `<div class="px-2.5 py-1.5 rounded-lg font-bold text-sm min-w-[45px] text-center ${ratingBadgeClass}">${rating}/10</div>` : ""}
                         </div>
                         <div class="flex gap-1.5 flex-wrap mb-3">
-                            <span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === 'film' ? badgeFilm : badgeSeries}">${row["Type"]}</span>
+                            <span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === "film" ? badgeFilm : badgeSeries}">${row["Type"]}</span>
                             ${withBogdan ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgeBogdan}">👥 Bogdan</span>` : ""}
                             ${hasPhysical ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgePhysical}">💿 Physical</span>` : ""}
                             ${rewatchPotential >= 9 ? `<span class="px-2.5 py-1 rounded-xl text-[0.7em] font-semibold uppercase tracking-wide ${badgeRewatch}">♻️ Rewatch</span>` : ""}
@@ -1038,12 +1543,18 @@
                             header !== "Rating ?/10" &&
                             header !== "Bogdan" &&
                             header !== "Physical Format" &&
-                            header !== "Rewatch potential"
+                            header !== "Rewatch potential" &&
+                            header !== "Cex Link"
                         ) {
                             const isWatchCount = header === "Watch count";
-                            const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
-                            const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
-                            const goldenClass = isGoldenWatchCount ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-3 py-1.5 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]' : '';
+                            const watchCountValue = isWatchCount
+                                ? parseInt(row[header])
+                                : 0;
+                            const isGoldenWatchCount =
+                                isWatchCount && watchCountValue >= 10;
+                            const goldenClass = isGoldenWatchCount
+                                ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-3 py-1.5 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]"
+                                : "";
                             html += `<div class="my-1.5 py-1.5 border-b border-white/10 text-sm last:border-b-0"><div class="font-semibold text-primary text-xs uppercase tracking-wide opacity-90">${header}</div><div class="text-white mt-1 opacity-90 ${goldenClass}">${row[header]}</div></div>`;
                         }
                     });
@@ -1064,7 +1575,8 @@
                         if (posterUrl) {
                             const img = document.createElement("img");
                             img.src = posterUrl;
-                            img.className = "w-full h-[280px] object-contain bg-gradient-to-br from-primary/20 to-black/40";
+                            img.className =
+                                "w-full h-[280px] object-contain bg-gradient-to-br from-primary/20 to-black/40";
                             img.alt = row["Name"];
                             posterDiv.replaceWith(img);
                         } else {
@@ -1074,7 +1586,7 @@
                 }
             }
 
-            function openModal(row) {
+            async function openModal(row) {
                 const modal = document.getElementById("modal");
                 const modalBody = document.getElementById("modalBody");
                 const modalPoster = document.getElementById("modalPoster");
@@ -1091,35 +1603,43 @@
 
                 // Physical format badge colors
                 const physicalColors = [
-                    'bg-orange-500/30 border border-orange-500 text-orange-500',
-                    'bg-purple-500/30 border border-purple-500 text-purple-500',
-                    'bg-blue-500/30 border border-blue-500 text-blue-500',
-                    'bg-green-500/30 border border-green-500 text-green-500',
-                    'bg-yellow-500/30 border border-yellow-500 text-yellow-500'
+                    "bg-orange-500/30 border border-orange-500 text-orange-500",
+                    "bg-purple-500/30 border border-purple-500 text-purple-500",
+                    "bg-blue-500/30 border border-blue-500 text-blue-500",
+                    "bg-green-500/30 border border-green-500 text-green-500",
+                    "bg-yellow-500/30 border border-yellow-500 text-yellow-500",
                 ];
 
                 // Create physical format badges
                 let physicalBadges = "";
                 if (hasPhysical) {
-                    const formats = row["Physical Format"].split(',').map(f => f.trim());
-                    physicalBadges = formats.map((format, index) => {
-                        const colorClass = physicalColors[index % 5];
-                        return `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${colorClass}">💿 ${format}</span>`;
-                    }).join('\n                    ');
+                    const formats = row["Physical Format"]
+                        .split(",")
+                        .map((f) => f.trim());
+                    physicalBadges = formats
+                        .map((format, index) => {
+                            const colorClass = physicalColors[index % 5];
+                            return `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${colorClass}">💿 ${format}</span>`;
+                        })
+                        .join("\n                    ");
                 }
 
-                const badgeFilm = 'bg-blue-500/30 border border-blue-500 text-blue-500';
-                const badgeSeries = 'bg-cyan-400/30 border border-cyan-400 text-cyan-400';
-                const badgeBogdan = 'bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold';
-                const badgeRewatch = 'bg-green-500/30 border border-green-500 text-green-500';
+                const badgeFilm =
+                    "bg-blue-500/30 border border-blue-500 text-blue-500";
+                const badgeSeries =
+                    "bg-cyan-400/30 border border-cyan-400 text-cyan-400";
+                const badgeBogdan =
+                    "bg-purple-500/30 border-2 border-purple-500 text-purple-500 font-bold";
+                const badgeRewatch =
+                    "bg-green-500/30 border border-green-500 text-green-500";
 
                 const ratingBadgeClass = isGoldRating
-                    ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]'
-                    : 'bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]';
+                    ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-[0_4px_10px_rgba(255,215,0,0.5)]"
+                    : "bg-gradient-to-br from-primary to-primary-dark text-white shadow-[0_4px_10px_rgba(233,69,96,0.3)]";
 
                 let html = `
                 <div class="flex gap-2.5 flex-wrap mb-5">
-                    <span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === 'film' ? badgeFilm : badgeSeries}">${row["Type"]}</span>
+                    <span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${row["Type"].toLowerCase() === "film" ? badgeFilm : badgeSeries}">${row["Type"]}</span>
                     ${withBogdan ? `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${badgeBogdan}">👥 Bogdan</span>` : ""}
                     ${physicalBadges}
                     ${rewatchPotential >= 9 ? `<span class="px-4 py-2 rounded-xl text-base font-semibold uppercase tracking-wide ${badgeRewatch}">♻️ High Rewatch</span>` : ""}
@@ -1140,12 +1660,18 @@
                         header !== "Rating ?/10" &&
                         header !== "Bogdan" &&
                         header !== "Physical Format" &&
-                        header !== "Rewatch potential"
+                        header !== "Rewatch potential" &&
+                        header !== "Cex Link"
                     ) {
                         const isWatchCount = header === "Watch count";
-                        const watchCountValue = isWatchCount ? parseInt(row[header]) : 0;
-                        const isGoldenWatchCount = isWatchCount && watchCountValue >= 10;
-                        const goldenClass = isGoldenWatchCount ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-4 py-2 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]' : '';
+                        const watchCountValue = isWatchCount
+                            ? parseInt(row[header])
+                            : 0;
+                        const isGoldenWatchCount =
+                            isWatchCount && watchCountValue >= 10;
+                        const goldenClass = isGoldenWatchCount
+                            ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-black font-bold px-4 py-2 rounded-lg inline-block shadow-[0_4px_10px_rgba(255,215,0,0.5)]"
+                            : "";
                         html += `
                         <div class="my-4 p-4 bg-white/5 rounded-xl border-l-4 border-primary">
                             <div class="font-semibold text-primary text-sm uppercase tracking-wide mb-2">${header}</div>
@@ -1155,7 +1681,39 @@
                     }
                 });
 
+                // Price paid & CeX value sections
+                const cexPriceStr = (row["Price (£)"] || "").replace(/[£$€,]/g, "").trim();
+                const cexPrice = parseFloat(cexPriceStr) || 0;
+                const cexLinks = parseCexLinks(row["Cex Link"]);
+
+                if (cexPrice > 0) {
+                    html += `
+                        <div class="my-4 p-4 bg-primary/5 rounded-xl border-l-4 border-primary">
+                            <div class="font-semibold text-primary text-sm uppercase tracking-wide mb-3">Price Paid</div>
+                            <div class="bg-primary/10 rounded-lg p-3 text-center border border-primary/30 inline-block">
+                                <div class="text-xs text-primary uppercase tracking-wide mb-1">Total</div>
+                                <div class="text-2xl font-bold text-primary">\u00a3${cexPrice.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+
+                if (cexLinks.length > 0) {
+                    html += `
+                        <div class="my-4 p-4 bg-emerald-500/5 rounded-xl border-l-4 border-emerald-500" id="cexSection">
+                            <div class="font-semibold text-emerald-400 text-sm uppercase tracking-wide mb-3">CeX Value</div>
+                            <div id="cexPricing" class="text-gray-400 text-sm animate-pulse">Loading CeX pricing...</div>
+                        </div>
+                    `;
+                }
+
                 modalBody.innerHTML = html;
+
+                // Show modal immediately so user sees it while CeX data loads
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                document.body.style.overflow = "hidden";
 
                 // Set poster - pass Comments for year and Genre for anime detection
                 fetchMoviePoster(
@@ -1172,9 +1730,53 @@
                     }
                 });
 
-                modal.classList.remove("hidden");
-                modal.classList.add("flex");
-                document.body.style.overflow = "hidden";
+                // Fetch CeX pricing for all links (async, modal already visible)
+                if (cexLinks.length > 0) {
+                    const pricingEl = document.getElementById("cexPricing");
+                    if (pricingEl) {
+                        let resultsHtml = "";
+                        let loaded = 0;
+                        for (const link of cexLinks) {
+                            const sku = extractCexSku(link);
+                            if (!sku) continue;
+                            const details = await fetchCexDetails(sku);
+                            if (!details) {
+                                resultsHtml += `<div class="mb-3 text-red-400 text-xs">Could not fetch data for SKU ${sku}</div>`;
+                                continue;
+                            }
+                            loaded++;
+                            resultsHtml += `
+                                <div class="${loaded > 1 ? "mt-4 pt-4 border-t border-emerald-500/20" : ""}">
+                                    <div class="grid grid-cols-3 gap-3 mb-3">
+                                        <div class="bg-white/5 rounded-lg p-3 text-center">
+                                            <div class="text-xs text-gray-400 uppercase tracking-wide mb-1">Sell Price</div>
+                                            <div class="text-xl font-bold text-white">\u00a3${details.sellPrice}</div>
+                                            <div class="text-[10px] text-gray-500 mt-1">What CeX sells for</div>
+                                        </div>
+                                        <div class="bg-emerald-500/10 rounded-lg p-3 text-center border border-emerald-500/30">
+                                            <div class="text-xs text-emerald-400 uppercase tracking-wide mb-1">Cash</div>
+                                            <div class="text-xl font-bold text-emerald-400">\u00a3${details.cashPrice}</div>
+                                            <div class="text-[10px] text-gray-500 mt-1">Cash payout</div>
+                                        </div>
+                                        <div class="bg-yellow-500/10 rounded-lg p-3 text-center border border-yellow-500/30">
+                                            <div class="text-xs text-yellow-400 uppercase tracking-wide mb-1">Voucher</div>
+                                            <div class="text-xl font-bold text-yellow-400">\u00a3${details.exchangePrice}</div>
+                                            <div class="text-[10px] text-gray-500 mt-1">Store credit</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs text-gray-500">${details.boxName}</span>
+                                        <a href="${link}" target="_blank" rel="noopener" class="text-xs text-emerald-400 hover:text-emerald-300 underline" onclick="event.stopPropagation()">View on CeX</a>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        pricingEl.classList.remove("animate-pulse");
+                        pricingEl.innerHTML =
+                            resultsHtml ||
+                            '<span class="text-red-400">Could not fetch CeX data</span>';
+                    }
+                }
             }
 
             function closeModal() {
