@@ -584,6 +584,47 @@
             let posterCache = {};
             let cexCache = {};
 
+            // Custom Cloudflare Worker proxy (primary). Leave empty to skip.
+            const PRIMARY_PROXY = "https://cex-proxy.raul-blideran98.workers.dev";
+
+            const CORS_PROXIES = [
+                ...(PRIMARY_PROXY
+                    ? [{ url: (url) => `${PRIMARY_PROXY}/?url=${encodeURIComponent(url)}`, timeout: 10000 }]
+                    : []),
+                { url: (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, timeout: 15000 },
+                { url: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, timeout: 8000 },
+                { url: (url) => `https://api.cors.lol/?url=${encodeURIComponent(url)}`, timeout: 8000 },
+                { url: (url) => `https://cors.eu.org/${url}`, timeout: 8000 },
+            ];
+            let workingProxyIndex = 0;
+
+            function fetchWithTimeout(url, timeoutMs) {
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), timeoutMs);
+                return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+            }
+
+            async function fetchWithProxy(url) {
+                for (let i = workingProxyIndex; i < CORS_PROXIES.length; i++) {
+                    const { url: proxyFn, timeout } = CORS_PROXIES[i];
+                    try {
+                        const proxyUrl = proxyFn(url);
+                        console.log(`Trying proxy ${i}: ${proxyUrl}`);
+                        const resp = await fetchWithTimeout(proxyUrl, timeout);
+                        if (resp.ok) {
+                            workingProxyIndex = i;
+                            return resp;
+                        }
+                        if (resp.status === 429) {
+                            console.warn(`Proxy ${i} rate-limited`);
+                        }
+                    } catch (e) {
+                        console.warn(`Proxy ${i} failed, trying next...`, e.message);
+                    }
+                }
+                return null;
+            }
+
             function extractCexSku(url) {
                 if (!url) return null;
                 const match = url.match(/[?&]id=([^&]+)/);
@@ -594,10 +635,10 @@
                 if (!sku) return null;
                 if (cexCache[sku]) return cexCache[sku];
                 try {
-                    const resp = await fetch(
-                        `https://cors.eu.org/https://wss2.cex.uk.webuy.io/v3/boxes/${sku}/detail`,
+                    const resp = await fetchWithProxy(
+                        `https://wss2.cex.uk.webuy.io/v3/boxes/${sku}/detail`,
                     );
-                    if (!resp.ok) return null;
+                    if (!resp) return null;
                     const json = await resp.json();
                     const details =
                         json?.response?.data?.boxDetails?.[0] ?? null;
@@ -841,14 +882,10 @@
                 showLoading(true);
 
                 try {
-                    const corsProxy = "https://api.allorigins.win/raw?url=";
-                    const url =
-                        corsProxy + encodeURIComponent(GOOGLE_SHEETS_URL);
-
-                    const response = await fetch(url);
-                    if (!response.ok) {
+                    const response = await fetchWithProxy(GOOGLE_SHEETS_URL);
+                    if (!response) {
                         throw new Error(
-                            "Failed to load CSV from Google Sheets",
+                            "Failed to load CSV from Google Sheets (all proxies failed)",
                         );
                     }
 
